@@ -10,7 +10,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by chad on 7/6/2017.
  */
 
-public class Ingredients {
+public class Ingredients implements Parcelable{
 
     @SerializedName("quantity")
     @Expose
@@ -21,6 +21,23 @@ public class Ingredients {
     @SerializedName("ingredient")
     @Expose
     private String ingredient;
+
+    protected Ingredients(Parcel in) {
+        measure = in.readString();
+        ingredient = in.readString();
+    }
+
+    public static final Creator<Ingredients> CREATOR = new Creator<Ingredients>() {
+        @Override
+        public Ingredients createFromParcel(Parcel in) {
+            return new Ingredients(in);
+        }
+
+        @Override
+        public Ingredients[] newArray(int size) {
+            return new Ingredients[size];
+        }
+    };
 
     public Float getQuantity() {
         return quantity;
@@ -46,4 +63,14 @@ public class Ingredients {
         this.ingredient = ingredient;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(measure);
+        dest.writeString(ingredient);
+    }
 }

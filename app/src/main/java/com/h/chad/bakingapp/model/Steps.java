@@ -6,7 +6,7 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Steps {
+public class Steps implements Parcelable{
 
 
 
@@ -25,6 +25,25 @@ public class Steps {
     @SerializedName("thumbnailURL")
     @Expose
     private String thumbnailURL;
+
+    protected Steps(Parcel in) {
+        shortDescription = in.readString();
+        description = in.readString();
+        videoURL = in.readString();
+        thumbnailURL = in.readString();
+    }
+
+    public static final Creator<Steps> CREATOR = new Creator<Steps>() {
+        @Override
+        public Steps createFromParcel(Parcel in) {
+            return new Steps(in);
+        }
+
+        @Override
+        public Steps[] newArray(int size) {
+            return new Steps[size];
+        }
+    };
 
     public Integer getId() {
         return id;
@@ -66,4 +85,16 @@ public class Steps {
         this.thumbnailURL = thumbnailURL;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(shortDescription);
+        dest.writeString(description);
+        dest.writeString(videoURL);
+        dest.writeString(thumbnailURL);
+    }
 }
