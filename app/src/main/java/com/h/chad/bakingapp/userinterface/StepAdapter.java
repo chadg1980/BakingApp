@@ -15,6 +15,9 @@ import com.h.chad.bakingapp.model.Steps;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by chad on 7/10/2017.
  */
@@ -38,13 +41,12 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepAdapterVie
         LayoutInflater inflater = LayoutInflater.from(mContext);
         boolean attachToParentImmediatly = false;
         View view = inflater.inflate(layoutIdForStep, parent, attachToParentImmediatly);
-
         return new StepAdapterViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(StepAdapterViewHolder holder, int position) {
-        holder.bind(position);
+       holder.bind(position);
     }
 
     @Override
@@ -53,22 +55,24 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepAdapterVie
     }
 
     class StepAdapterViewHolder extends RecyclerView.ViewHolder{
-        private TextView stepNumber;
-        private TextView shortDescription;
+        @BindView(R.id.tv_step_number) TextView stepNumber;
+        @BindView(R.id.tv_step_short_description) TextView shortDescription;
 
         public StepAdapterViewHolder(View itemView) {
             super(itemView);
-            stepNumber = (TextView) itemView.findViewById(R.id.tv_step_number);
-            shortDescription = (TextView) itemView.findViewById(R.id.tv_step_short_description);
+            ButterKnife.bind(this, itemView);
         }
 
         public void bind(int position) {
-            stepNumber.setText(Integer.toString(position + 1));
+
+            int stepint = mSteps.get(position).getId();
+            stepNumber.setText(Integer.toString(stepint + 1) +
+                     mContext.getString(R.string.step_paren));
             String shortDescriptionString = mSteps.get(position).getShortDescription();
-            if(!TextUtils.isEmpty(shortDescriptionString))
+            if (!TextUtils.isEmpty(shortDescriptionString))
                 shortDescription.setText(shortDescriptionString);
             else
-                shortDescription.setText("Error Maing this call");
+                shortDescription.setText(mContext.getString(R.string.no_description));
         }
     }
 }

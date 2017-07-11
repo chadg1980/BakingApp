@@ -23,6 +23,7 @@ public class Ingredients implements Parcelable{
     private String ingredient;
 
     protected Ingredients(Parcel in) {
+        quantity = in.readFloat();
         measure = in.readString();
         ingredient = in.readString();
     }
@@ -70,6 +71,7 @@ public class Ingredients implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeFloat(quantity);
         dest.writeString(measure);
         dest.writeString(ingredient);
     }

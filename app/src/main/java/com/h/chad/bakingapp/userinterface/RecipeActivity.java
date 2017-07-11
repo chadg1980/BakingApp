@@ -17,6 +17,8 @@ import com.h.chad.bakingapp.model.Recipe;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -27,9 +29,9 @@ public class RecipeActivity extends AppCompatActivity {
 
     private final static String TAG = RecipeActivity.class.getName();
 
-    private RecyclerView mRecyclerView;
     private RecipeAdapter mRecipeAdapter;
-    private TextView mErrorMessage;
+    @BindView(R.id.rv_recipes) RecyclerView mRecyclerView;
+    @BindView(R.id.tv_error_message) TextView mErrorMessage;
     private SOService mService;
     private ArrayList<Recipe> mRecipe;
 
@@ -37,10 +39,10 @@ public class RecipeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe);
+        ButterKnife.bind(this);
         mService = ApiUtils.getSOService();
         mRecipe = new ArrayList<>();
-        mRecyclerView = (RecyclerView) findViewById(R.id.rv_recipes);
-        mErrorMessage = (TextView) findViewById(R.id.tv_error_message);
+
         //Loads the recipes using Retrofit2
         loadRecipe();
     }
@@ -57,7 +59,7 @@ public class RecipeActivity extends AppCompatActivity {
             public void onResponse(@NonNull Call<List<Recipe>> call, @NonNull Response<List<Recipe>> response) {
                 if(response.isSuccessful()){
                     if (response.body() == null) {
-                        showError("No Data to Show");
+                        showError(getString(R.string.response_error));
                     } else {
                         for (Recipe recipe : response.body()) {
                             mRecipe.add(recipe);
@@ -65,6 +67,7 @@ public class RecipeActivity extends AppCompatActivity {
                         setUpRecyclerView(mRecipe);
                     }
                 }else {
+                    showError(getString(R.string.response_error));
                     Log.e(TAG, "response not successfull, response " + response.toString());
                 }
             }
@@ -82,10 +85,10 @@ public class RecipeActivity extends AppCompatActivity {
      * Takes string input of what error to display to user
      */
     private void showError(String errorMessage) {
+
         mRecyclerView.setVisibility(View.GONE);
         mErrorMessage.setText(errorMessage);
         mErrorMessage.setVisibility(View.VISIBLE);
-
     }
 
     /**

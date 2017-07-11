@@ -29,6 +29,9 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 import static android.R.string.no;
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.V;
 
@@ -39,9 +42,9 @@ import static android.icu.lang.UCharacter.GraphemeClusterBreak.V;
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeAdapterViewHolder>{
 
     public static final String TAG = RecipeAdapter.class.getName();
+
     public Context mContext;
     public ArrayList<Recipe> mRecipes;
-
 
     public RecipeAdapter(Context context, ArrayList<Recipe> recipes){
         this.mRecipes = recipes;
@@ -72,10 +75,8 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeAdap
                 args.putParcelableArrayList(StepActivity.STEP_DATA, steps);
                 stepIntent.putExtras(args);
                 mContext.startActivity(stepIntent);
-
             }
         });
-
     }
 
     @Override
@@ -89,13 +90,14 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeAdap
     }
 
     class RecipeAdapterViewHolder extends RecyclerView.ViewHolder{
-        private TextView recipeName;
-        private ImageView recipeImage;
+        @BindView(R.id.tv_recipe_name)
+        TextView recipeName;
+        @BindView(R.id.iv_recipe_image)
+        ImageView recipeImage;
 
         private RecipeAdapterViewHolder(View itemView) {
             super(itemView);
-            recipeName = (TextView) itemView.findViewById(R.id.tv_recipe_name);
-            recipeImage = (ImageView) itemView.findViewById(R.id.iv_recipe_image);
+            ButterKnife.bind(this, itemView);
         }
         void bind(int listIndex){
             recipeName.setText(mRecipes.get(listIndex).getName());
@@ -112,7 +114,6 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeAdap
                         .placeholder(R.drawable.cupcake)
                         .error(R.drawable.cupcake)
                         .into(recipeImage);
-
             }
         }
     }
