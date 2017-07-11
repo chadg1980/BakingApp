@@ -4,8 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,8 +38,10 @@ import static android.icu.lang.UCharacter.GraphemeClusterBreak.V;
 
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeAdapterViewHolder>{
 
+    public static final String TAG = RecipeAdapter.class.getName();
     public Context mContext;
     public ArrayList<Recipe> mRecipes;
+
 
     public RecipeAdapter(Context context, ArrayList<Recipe> recipes){
         this.mRecipes = recipes;
@@ -62,13 +66,13 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeAdap
             public void onClick(View v) {
                 ArrayList<Ingredients> ingredients = mRecipes.get(position).getIngredients();
                 ArrayList<Steps> steps = mRecipes.get(position).getSteps();
-
                 Intent stepIntent = new Intent(mContext, StepActivity.class);
                 Bundle args = new Bundle();
                 args.putParcelableArrayList(StepActivity.INGREDIENT_DATA, ingredients);
                 args.putParcelableArrayList(StepActivity.STEP_DATA, steps);
                 stepIntent.putExtras(args);
                 mContext.startActivity(stepIntent);
+
             }
         });
 

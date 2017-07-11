@@ -8,10 +8,15 @@
     android:orientation="vertical"
     tools:context="com.h.chad.bakingapp.userinterface.StepActivity">
 
+    <TextView
+        android:id="@+id/tv_step_error_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_step"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="0dp"

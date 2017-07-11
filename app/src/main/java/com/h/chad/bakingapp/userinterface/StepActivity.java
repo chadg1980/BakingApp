@@ -3,7 +3,11 @@ package com.h.chad.bakingapp.userinterface;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.h.chad.bakingapp.R;
@@ -23,6 +27,15 @@ public class StepActivity extends AppCompatActivity {
     public final static String INGREDIENT_DATA = "INGREDIENT_DATA";
     public final static String STEP_DATA = "STEP_DATA";
 
+    private RecyclerView mRecyclerView;
+    private StepAdapter mStepAdapter;
+    private TextView mErrorMessage;
+    private ArrayList<Steps> mSteps;
+    private ArrayList<Ingredients> mIngredients;
+
+
+
+
 
 
 
@@ -30,16 +43,26 @@ public class StepActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_step);
+        mErrorMessage  = (TextView)findViewById(R.id.tv_step_error_message);
+        mIngredients = this.getIntent().getExtras().getParcelableArrayList(INGREDIENT_DATA);
+        mSteps = this.getIntent().getExtras().getParcelableArrayList(STEP_DATA);
 
-        ArrayList<Ingredients> ingredients =
-                this.getIntent().getExtras().getParcelableArrayList(INGREDIENT_DATA);
-        ArrayList<Steps> steps =
-                this.getIntent().getExtras().getParcelableArrayList(STEP_DATA);
-        for(Steps s : steps){
-            Log.e(TAG, "step " + s.getShortDescription().toString());
-        }
+        loadStepsIntoView();
 
+    }
 
+    private void loadStepsIntoView() {
+        mStepAdapter = new StepAdapter(this, mIngredients, mSteps);
+        mRecyclerView =  (RecyclerView) findViewById(R.id.rv_step);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setAdapter(mStepAdapter);
+    }
+
+    private void showError(String errorMessage) {
+        mRecyclerView.setVisibility(View.GONE);
+        mErrorMessage.setText(errorMessage);
+        mErrorMessage.setVisibility(View.VISIBLE);
 
     }
 }

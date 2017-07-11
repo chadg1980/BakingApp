@@ -3,7 +3,6 @@ package com.h.chad.bakingapp.userinterface;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -98,12 +97,9 @@ public class RecipeActivity extends AppCompatActivity {
             mRecyclerView.setHasFixedSize(true);
             mRecipeAdapter = new RecipeAdapter(this, recipeArrayList);
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+
             mRecyclerView.setLayoutManager(layoutManager);
             mRecyclerView.setAdapter(mRecipeAdapter);
-
-
         }
-
-
     }
 }
