@@ -12,13 +12,34 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="4"
-
          />
+    <RelativeLayout
+        android:id="@+id/layout_no_media"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:visibility="gone">
+    <ImageView
+        android:id="@+id/iv_no_media"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/cupcake"
+        android:padding="1dp"
+        android:contentDescription="@string/no_media_picture"/>
+
+    </RelativeLayout>
+
     <TextView
         android:id="@+id/tv_step_detail_instructions"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="4"
+        android:background="@color/cardBackground"
+        style="@style/cardItemStyle"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="8dp"
+        android:textSize="20sp"
 
          />
     <LinearLayout
@@ -45,6 +66,4 @@
             android:gravity="center"/>
 
     </LinearLayout>
-
-
 </LinearLayout>
