@@ -12,4 +12,6 @@
 
     <!-- Strings for Step -->
     <string name="step_paren">") "</string>
+    <string name="next_step">Next Step</string>
+    <string name="previous_step">Previous Step</string>
 </resources>

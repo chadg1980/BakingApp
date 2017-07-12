@@ -52,6 +52,11 @@ compile 'com.android.support:appcompat-v7:25.3.1'
     //picasso for pictures
     compile 'com.squareup.picasso:picasso:2.5.2'
 
+    //Exoplayer
+    compile 'com.google.android.exoplayer:exoplayer-core:r2.4.3'
+    compile 'com.google.android.exoplayer:exoplayer-dash:r2.4.3'
+    compile 'com.google.android.exoplayer:exoplayer-ui:r2.4.3'
+
     //Butterknife for data binding
     compile 'com.jakewharton:butterknife:8.6.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
