@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundGray"
+    android:background="@drawable/polkadot_background"
     tools:context="com.h.chad.bakingapp.userinterface.RecipeActivity">
 
     <TextView
@@ -15,25 +15,24 @@
         android:layout_centerInParent="true"
         android:padding="16dp"
         android:text="@string/error_message"
-
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-        android:visibility="gone"
-        />
+        android:visibility="gone"/>
 
     <ProgressBar
         android:id="@+id/pb_loading_bar"
         android:layout_width="42dp"
         android:layout_height="42dp"
         android:layout_centerInParent="true"
-        android:visibility="gone"
-       />
+        android:visibility="gone"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_recipes"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
         android:paddingBottom="3dp"
-        android:scrollbars="vertical"
-        android:background="@drawable/polkadot_background"/>
+        android:scrollbars="vertical"/>
 
 </RelativeLayout>

@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <RelativeLayout
-        style="@style/cardLikeStyle"
-        >
+        style="@style/cardLikeStyle">
 
         <TextView
             android:id="@+id/tv_quantity"
@@ -17,7 +16,8 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:text="2"
+            android:paddingLeft="10dp"
+            android:paddingStart="10dp"
             android:textSize="20sp" />
 
         <TextView
@@ -26,7 +26,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/tv_quantity"
-            android:text="CUP"
+            android:layout_toEndOf="@+id/tv_quantity"
+            android:paddingLeft="5dp"
+            android:paddingStart="5dp"
             android:textSize="20sp" />
 
         <TextView
@@ -35,7 +37,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/tv_measure"
-            android:text="Graham Cracker crumbs"
+            android:layout_toEndOf="@id/tv_measure"
+            android:paddingLeft="20dp"
+            android:paddingStart="20dp"
             android:textSize="20sp" />
 
     </RelativeLayout>

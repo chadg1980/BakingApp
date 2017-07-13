@@ -16,6 +16,29 @@
           android:layout_height="wrap_content"
           android:visibility="gone" />
 
+    <RelativeLayout
+        android:id="@+id/rl_ingredient_layout"
+        style="@style/cardLikeStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:paddingBottom="3dp">
+
+        <TextView
+
+            android:id="@+id/tv_ingredients_in_steps"
+            style="@style/cardItemStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/ingredient_string"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            tools:text="stir the thing" />
+    </RelativeLayout>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_step"
         android:layout_width="match_parent"

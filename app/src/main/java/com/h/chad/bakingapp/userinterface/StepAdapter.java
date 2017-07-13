@@ -57,37 +57,19 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepAdapterVie
     @Override
     public void onBindViewHolder(StepAdapterViewHolder holder, final int position) {
         holder.bind(position);
-        if (position == 0) {
-            RelativeLayout.LayoutParams params =
-                    (RelativeLayout.LayoutParams) holder.shortDescription.getLayoutParams();
-            params.width = RelativeLayout.LayoutParams.MATCH_PARENT;
-            holder.shortDescription.setLayoutParams(params);
-            holder.shortDescription.setGravity(Gravity.CENTER);
-
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent ingredientIntent = new Intent(mContext, IngredientsActivity.class);
-                    Bundle args = new Bundle();
-                    args.putParcelableArrayList(IngredientsActivity.GET_INGREDIENTS_ARRAYLIST, mIngredients);
-                    ingredientIntent.putExtras(args);
-                    mContext.startActivity(ingredientIntent);
-                    }
-            });
-        } else {
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int stepID = mSteps.get(position).getId();
-                    Intent stepDetailIntent = new Intent(mContext, StepDetailView.class);
-                    Bundle args = new Bundle();
-                    args.putParcelableArrayList(StepDetailView.GET_STEP_ARRAYLIST, mSteps);
-                    stepDetailIntent.putExtras(args);
-                    stepDetailIntent.putExtra(StepDetailView.GET_STEP_ID, stepID);
-                    mContext.startActivity(stepDetailIntent);
-                }
-            });
-        }
+        //When a step gets clicked on, it opens up the step details
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int stepID = mSteps.get(position).getId();
+                Intent stepDetailIntent = new Intent(mContext, StepDetailView.class);
+                Bundle args = new Bundle();
+                args.putParcelableArrayList(StepDetailView.GET_STEP_ARRAYLIST, mSteps);
+                stepDetailIntent.putExtras(args);
+                stepDetailIntent.putExtra(StepDetailView.GET_STEP_ID, stepID);
+                mContext.startActivity(stepDetailIntent);
+            }
+        });
     }
 
     @Override
@@ -105,20 +87,13 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepAdapterVie
         }
 
         public void bind(int position) {
-            if (position > 0) {
-                int stepint = mSteps.get(position).getId();
-                stepNumber.setText(Integer.toString(stepint) +
-                        mContext.getString(R.string.step_paren));
-                String shortDescriptionString = mSteps.get(position).getShortDescription();
-                if (!TextUtils.isEmpty(shortDescriptionString))
-                    shortDescription.setText(shortDescriptionString);
-                else
-                    shortDescription.setText(mContext.getString(R.string.no_description));
-            } else {
-                shortDescription.setText(mContext.getString(R.string.ingredient_string));
-
-
-            }
+            int stepint = mSteps.get(position).getId() + 1;
+            stepNumber.setText(Integer.toString(stepint) +mContext.getString(R.string.step_paren));
+            String shortDescriptionString = mSteps.get(position).getShortDescription();
+            if (!TextUtils.isEmpty(shortDescriptionString))
+                shortDescription.setText(shortDescriptionString);
+            else
+                shortDescription.setText(mContext.getString(R.string.no_description));
         }
     }
 }

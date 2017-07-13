@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -37,7 +38,7 @@ public class StepActivity extends AppCompatActivity {
 
     @BindView(R.id.tv_step_error_message) TextView mErrorMessage;
     @BindView(R.id.rv_step) RecyclerView mRecyclerView;
-    //@BindView(R.id.tv_ingredients) TextView mIngredientTextView;
+    @BindView(R.id.rl_ingredient_layout) RelativeLayout mIngredientLayout;
     private ArrayList<Steps> mSteps;
     private ArrayList<Ingredients> mIngredients;
     private Context mContext;
@@ -52,12 +53,23 @@ public class StepActivity extends AppCompatActivity {
 
         mIngredients = this.getIntent().getExtras().getParcelableArrayList(INGREDIENT_DATA);
         mSteps = this.getIntent().getExtras().getParcelableArrayList(STEP_DATA);
-
+        //Loads the recyclerview
         loadStepsIntoView();
+
+        //When Ingredients is clicked, it shows the list of ingredients
+        mIngredientLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent ingredientIntent = new Intent(mContext, IngredientsActivity.class);
+                Bundle args = new Bundle();
+                args.putParcelableArrayList(IngredientsActivity.GET_INGREDIENTS_ARRAYLIST, mIngredients);
+                ingredientIntent.putExtras(args);
+                mContext.startActivity(ingredientIntent);
+            }
+        });
     }
 
     private void loadStepsIntoView() {
-        //mIngredientTextView.setText(R.string.ingredient_string);
         mStepAdapter = new StepAdapter(this, mIngredients, mSteps);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         mRecyclerView.setLayoutManager(layoutManager);

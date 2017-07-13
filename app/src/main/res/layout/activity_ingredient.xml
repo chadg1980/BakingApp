@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/polkadot_background">
 
     <TextView
         android:id="@+id/tv_ingredients_error"
@@ -14,8 +16,11 @@
         android:id="@+id/rv_ingredient_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="0dp"
         android:paddingBottom="3dp"
         android:scrollbars="vertical"
-        android:background="@drawable/polkadot_background"/>
+        />
 
 </RelativeLayout>
