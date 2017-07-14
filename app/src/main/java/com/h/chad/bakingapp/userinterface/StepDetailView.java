@@ -1,10 +1,12 @@
 package com.h.chad.bakingapp.userinterface;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -68,7 +70,7 @@ public class StepDetailView extends AppCompatActivity {
     private DefaultTrackSelector mTrackSelector;
     private boolean mShouldAutoPlay;
     private BandwidthMeter mBandwidthMeter;
-
+    private int mLastStep;
 
 
     @Override
@@ -83,15 +85,56 @@ public class StepDetailView extends AppCompatActivity {
                 mContext, "Project Sample"),(TransferListener<? super DataSource>) mBandwidthMeter );
 
 
-
-
-
         mSteps = this.getIntent().getParcelableArrayListExtra(GET_STEP_ARRAYLIST);
         currentStepID = this.getIntent().getIntExtra(GET_STEP_ID, -1);
         if(currentStepID < 0 ){
             Log.e(TAG, "Step ID did not come through ID:" + currentStepID);
         }
         mInstructions.setText(mSteps.get(currentStepID).getDescription());
+
+        mLastStep = mSteps.size() -1;
+        if (currentStepID >= mLastStep) {
+            mNextStep.setClickable(false);
+            mNextStep.setBackgroundColor(ContextCompat.getColor(this, R.color.app_black));
+        } else {
+            mNextStep.setClickable(true);
+            mNextStep.setBackgroundColor(ContextCompat.getColor(this, R.color.backgroundGray));
+        }
+        //Only click the next step if it is clickable
+        if (mNextStep.isClickable()) {
+            mNextStep.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent nextStep = new Intent(StepDetailView.this, StepDetailView.class);
+                    Bundle args = new Bundle();
+                    args.putParcelableArrayList(StepDetailView.GET_STEP_ARRAYLIST, mSteps);
+                    nextStep.putExtras(args);
+                    nextStep.putExtra(StepDetailView.GET_STEP_ID, currentStepID + 1);
+                    mContext.startActivity(nextStep);
+                }
+            });
+        }
+        if (currentStepID <= 0) {
+            mPreviousStep.setClickable(false);
+            mPreviousStep.setBackgroundColor(ContextCompat.getColor(this, R.color.app_black));
+        } else {
+            mPreviousStep.setClickable(true);
+            mPreviousStep.setBackgroundColor(ContextCompat.getColor(this, R.color.backgroundGray));
+        }
+        //Only click the next step if it is clickable
+        if (mPreviousStep.isClickable()) {
+            mPreviousStep.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent nextStep = new Intent(StepDetailView.this, StepDetailView.class);
+                    Bundle args = new Bundle();
+                    args.putParcelableArrayList(StepDetailView.GET_STEP_ARRAYLIST, mSteps);
+                    nextStep.putExtras(args);
+                    nextStep.putExtra(StepDetailView.GET_STEP_ID, currentStepID - 1);
+                    mContext.startActivity(nextStep);
+                }
+            });
+        }
 
 
     }
@@ -107,11 +150,7 @@ public class StepDetailView extends AppCompatActivity {
 
         DefaultExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
         String mediaUrl = new String();
-        if(currentStepID == 1) {
-           mediaUrl = mSteps.get(0).getVideoURL();
-        }else {
-            mediaUrl = mSteps.get(currentStepID).getVideoURL();
-        }
+        mediaUrl = mSteps.get(currentStepID).getVideoURL();
 
         Log.e(TAG, mediaUrl);
         if(!TextUtils.isEmpty(mediaUrl)) {

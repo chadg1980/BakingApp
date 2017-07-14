@@ -47,23 +47,30 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="horizontal"
-        android:background="@color/backgroundGray">
+        android:background="@android:color/black"
+        >
         <TextView
             android:id="@+id/tv_previous_step"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/next_step"
+            android:text="@string/previous_step"
             android:gravity="center"
-            android:paddingRight="1dp"/>
+            android:layout_marginRight="1dp"
+            android:background="@color/backgroundGray"
+
+            android:clickable="true"/>
 
         <TextView
             android:id="@+id/tv_next_step"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/previous_step"
-            android:gravity="center"/>
+            android:text="@string/next_step"
+            android:gravity="center"
+            android:background="@color/backgroundGray"
+            android:clickable="true"/>
+
 
     </LinearLayout>
 </LinearLayout>
