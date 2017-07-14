@@ -82,7 +82,7 @@ public class StepDetailView extends AppCompatActivity {
         mShouldAutoPlay = true;
         mBandwidthMeter = new DefaultBandwidthMeter();
         mMediaDataSourceFactory = new DefaultDataSourceFactory(mContext, Util.getUserAgent(
-                mContext, "Project Sample"),(TransferListener<? super DataSource>) mBandwidthMeter );
+                mContext, "Baking App"), (TransferListener<? super DataSource>) mBandwidthMeter);
 
 
         mSteps = this.getIntent().getParcelableArrayListExtra(GET_STEP_ARRAYLIST);
@@ -93,18 +93,14 @@ public class StepDetailView extends AppCompatActivity {
         mInstructions.setText(mSteps.get(currentStepID).getDescription());
 
         mLastStep = mSteps.size() -1;
-        if (currentStepID >= mLastStep) {
-            mNextStep.setClickable(false);
-            mNextStep.setBackgroundColor(ContextCompat.getColor(this, R.color.app_black));
-        } else {
-            mNextStep.setClickable(true);
-            mNextStep.setBackgroundColor(ContextCompat.getColor(this, R.color.backgroundGray));
-        }
+        checkStep();
+
         //Only click the next step if it is clickable
         if (mNextStep.isClickable()) {
             mNextStep.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
                     Intent nextStep = new Intent(StepDetailView.this, StepDetailView.class);
                     Bundle args = new Bundle();
                     args.putParcelableArrayList(StepDetailView.GET_STEP_ARRAYLIST, mSteps);
@@ -114,18 +110,13 @@ public class StepDetailView extends AppCompatActivity {
                 }
             });
         }
-        if (currentStepID <= 0) {
-            mPreviousStep.setClickable(false);
-            mPreviousStep.setBackgroundColor(ContextCompat.getColor(this, R.color.app_black));
-        } else {
-            mPreviousStep.setClickable(true);
-            mPreviousStep.setBackgroundColor(ContextCompat.getColor(this, R.color.backgroundGray));
-        }
+
         //Only click the next step if it is clickable
         if (mPreviousStep.isClickable()) {
             mPreviousStep.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
                     Intent nextStep = new Intent(StepDetailView.this, StepDetailView.class);
                     Bundle args = new Bundle();
                     args.putParcelableArrayList(StepDetailView.GET_STEP_ARRAYLIST, mSteps);
@@ -135,7 +126,25 @@ public class StepDetailView extends AppCompatActivity {
                 }
             });
         }
+    }
 
+    public void checkStep() {
+
+        if (currentStepID <= 0) {
+            mPreviousStep.setClickable(false);
+            mPreviousStep.setBackgroundColor(ContextCompat.getColor(this, R.color.app_black));
+        } else {
+            mPreviousStep.setClickable(true);
+            mPreviousStep.setBackgroundColor(ContextCompat.getColor(this, R.color.backgroundGray));
+        }
+
+        if (currentStepID >= mLastStep) {
+            mNextStep.setClickable(false);
+            mNextStep.setBackgroundColor(ContextCompat.getColor(this, R.color.app_black));
+        } else {
+            mNextStep.setClickable(true);
+            mNextStep.setBackgroundColor(ContextCompat.getColor(this, R.color.backgroundGray));
+        }
 
     }
     private void setupVideoPlayer(){
@@ -161,7 +170,6 @@ public class StepDetailView extends AppCompatActivity {
         else {
             mVideoPlayerView.setVisibility(View.GONE);
             mNoVideo.setVisibility(View.VISIBLE);
-
             releasePlayer();
         }
 
