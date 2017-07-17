@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/polkadot_background"
-    tools:context="com.h.chad.bakingapp.userinterface.RecipeActivity">
+    tools:context="com.h.chad.bakingapp.userinterface.recipe.RecipeActivity">
 
     <TextView
         android:id="@+id/tv_error_message"

@@ -1,4 +1,4 @@
-package com.h.chad.bakingapp.userinterface;
+package com.h.chad.bakingapp.userinterface.ingredients;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -11,8 +11,6 @@ import android.widget.TextView;
 import com.h.chad.bakingapp.R;
 import com.h.chad.bakingapp.model.Ingredients;
 
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 

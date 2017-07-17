@@ -1,39 +1,27 @@
-package com.h.chad.bakingapp.userinterface;
+package com.h.chad.bakingapp.userinterface.recipe;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.h.chad.bakingapp.R;
 import com.h.chad.bakingapp.model.Ingredients;
 import com.h.chad.bakingapp.model.Recipe;
 import com.h.chad.bakingapp.model.Steps;
+import com.h.chad.bakingapp.userinterface.steps.StepFragment;
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
-import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static android.R.string.no;
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.V;
 
 /**
  * Created by chad on 7/8/2017.
@@ -45,6 +33,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeAdap
 
     public Context mContext;
     public ArrayList<Recipe> mRecipes;
+    public boolean mTwoPane;
 
     public RecipeAdapter(Context context, ArrayList<Recipe> recipes){
         this.mRecipes = recipes;
@@ -69,10 +58,10 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeAdap
             public void onClick(View v) {
                 ArrayList<Ingredients> ingredients = mRecipes.get(position).getIngredients();
                 ArrayList<Steps> steps = mRecipes.get(position).getSteps();
-                Intent stepIntent = new Intent(mContext, StepActivity.class);
+                Intent stepIntent = new Intent(mContext, StepFragment.class);
                 Bundle args = new Bundle();
-                args.putParcelableArrayList(StepActivity.INGREDIENT_DATA, ingredients);
-                args.putParcelableArrayList(StepActivity.STEP_DATA, steps);
+                args.putParcelableArrayList(StepFragment.INGREDIENT_DATA, ingredients);
+                args.putParcelableArrayList(StepFragment.STEP_DATA, steps);
                 stepIntent.putExtras(args);
                 mContext.startActivity(stepIntent);
             }

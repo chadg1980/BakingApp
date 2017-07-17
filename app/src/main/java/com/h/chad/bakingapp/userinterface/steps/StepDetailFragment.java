@@ -1,32 +1,30 @@
-package com.h.chad.bakingapp.userinterface;
+package com.h.chad.bakingapp.userinterface.steps;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
+import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
-import com.google.android.exoplayer2.source.MergingMediaSource;
 import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelection;
-import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.BandwidthMeter;
 import com.google.android.exoplayer2.upstream.DataSource;
@@ -38,7 +36,6 @@ import com.h.chad.bakingapp.R;
 import com.h.chad.bakingapp.model.Steps;
 
 import java.util.ArrayList;
-import java.util.logging.Handler;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -47,9 +44,9 @@ import butterknife.ButterKnife;
  * Created by chad on 7/10/2017.
  */
 
-public class StepDetailView extends AppCompatActivity {
+public class StepDetailFragment extends Fragment {
 
-    public final static String TAG = StepDetailView.class.getName();
+    public final static String TAG = StepDetailFragment.class.getName();
 
     /* Constant for getting the step details*/
     public final static String GET_STEP_ARRAYLIST = "GET_STEP_ARRAYLIST";
@@ -74,79 +71,51 @@ public class StepDetailView extends AppCompatActivity {
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.step_detail);
-        ButterKnife.bind(this);
-        mContext = this;
+
+    }
+
+    private void setArguments(ArrayList<Parcelable> parcelableArrayListExtra) {
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        View rootView = inflater.inflate(R.layout.step_detail, container, false);
+
+        //exoplayer
         mShouldAutoPlay = true;
         mBandwidthMeter = new DefaultBandwidthMeter();
         mMediaDataSourceFactory = new DefaultDataSourceFactory(mContext, Util.getUserAgent(
                 mContext, "Baking App"), (TransferListener<? super DataSource>) mBandwidthMeter);
 
 
-        mSteps = this.getIntent().getParcelableArrayListExtra(GET_STEP_ARRAYLIST);
-        currentStepID = this.getIntent().getIntExtra(GET_STEP_ID, -1);
-        if(currentStepID < 0 ){
-            Log.e(TAG, "Step ID did not come through ID:" + currentStepID);
-        }
-        mInstructions.setText(mSteps.get(currentStepID).getDescription());
-
-        mLastStep = mSteps.size() -1;
-        checkStep();
-
-        //Only click the next step if it is clickable
-        if (mNextStep.isClickable()) {
-            mNextStep.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    Intent nextStep = new Intent(StepDetailView.this, StepDetailView.class);
-                    Bundle args = new Bundle();
-                    args.putParcelableArrayList(StepDetailView.GET_STEP_ARRAYLIST, mSteps);
-                    nextStep.putExtras(args);
-                    nextStep.putExtra(StepDetailView.GET_STEP_ID, currentStepID + 1);
-                    mContext.startActivity(nextStep);
-                }
-            });
-        }
-
-        //Only click the next step if it is clickable
-        if (mPreviousStep.isClickable()) {
-            mPreviousStep.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    Intent nextStep = new Intent(StepDetailView.this, StepDetailView.class);
-                    Bundle args = new Bundle();
-                    args.putParcelableArrayList(StepDetailView.GET_STEP_ARRAYLIST, mSteps);
-                    nextStep.putExtras(args);
-                    nextStep.putExtra(StepDetailView.GET_STEP_ID, currentStepID - 1);
-                    mContext.startActivity(nextStep);
-                }
-            });
-        }
+        return rootView;
     }
 
+    //For the nex previous button, make sure there is a next step or previous step
     public void checkStep() {
 
         if (currentStepID <= 0) {
             mPreviousStep.setClickable(false);
-            mPreviousStep.setBackgroundColor(ContextCompat.getColor(this, R.color.app_black));
+            mPreviousStep.setBackgroundColor(ContextCompat.getColor(mContext, R.color.app_black));
         } else {
             mPreviousStep.setClickable(true);
-            mPreviousStep.setBackgroundColor(ContextCompat.getColor(this, R.color.backgroundGray));
+            mPreviousStep.setBackgroundColor(ContextCompat.getColor(mContext, R.color.backgroundGray));
         }
 
         if (currentStepID >= mLastStep) {
             mNextStep.setClickable(false);
-            mNextStep.setBackgroundColor(ContextCompat.getColor(this, R.color.app_black));
+            mNextStep.setBackgroundColor(ContextCompat.getColor(mContext, R.color.app_black));
         } else {
             mNextStep.setClickable(true);
-            mNextStep.setBackgroundColor(ContextCompat.getColor(this, R.color.backgroundGray));
+            mNextStep.setBackgroundColor(ContextCompat.getColor(mContext, R.color.backgroundGray));
         }
 
     }
+
+    //Setting up the Exoplayer.
     private void setupVideoPlayer(){
         mVideoPlayerView.requestFocus();
 
@@ -184,7 +153,7 @@ public class StepDetailView extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() {
+    public void onStart() {
         super.onStart();
         if(Util.SDK_INT > 23){
             setupVideoPlayer();
@@ -192,7 +161,7 @@ public class StepDetailView extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         if((Util.SDK_INT <=23 || mPlayer == null)){
             setupVideoPlayer();
@@ -200,7 +169,7 @@ public class StepDetailView extends AppCompatActivity {
     }
 
     @Override
-    protected void onPause() {
+    public void onPause() {
         super.onPause();
         if(Util.SDK_INT <= 23){
             releasePlayer();
@@ -208,7 +177,7 @@ public class StepDetailView extends AppCompatActivity {
     }
 
     @Override
-    protected void onStop() {
+    public void onStop() {
         super.onStop();
         if(Util.SDK_INT > 23){
             releasePlayer();

@@ -1,13 +1,9 @@
-package com.h.chad.bakingapp.userinterface;
+package com.h.chad.bakingapp.userinterface.ingredients;
 
-import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -18,8 +14,6 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static android.R.attr.x;
 
 /**
  * Created by chad on 7/11/2017.

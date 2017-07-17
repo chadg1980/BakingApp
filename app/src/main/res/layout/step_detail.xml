@@ -7,6 +7,8 @@
     android:orientation="vertical"
     android:background="@drawable/polkadot_background">
 
+
+
     <com.google.android.exoplayer2.ui.SimpleExoPlayerView
         android:id="@+id/mp_step_detail"
         android:layout_width="match_parent"

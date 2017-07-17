@@ -1,4 +1,4 @@
-package com.h.chad.bakingapp.userinterface;
+package com.h.chad.bakingapp.userinterface.recipe;
 
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -22,8 +22,6 @@ import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.V;
 
 public class RecipeActivity extends AppCompatActivity {
 
