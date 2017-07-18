@@ -2,9 +2,11 @@ package com.h.chad.bakingapp.userinterface.ingredients;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.h.chad.bakingapp.R;
@@ -28,6 +30,9 @@ public class IngredientsActivity extends AppCompatActivity{
     @BindView(R.id.rv_ingredient_recyclerview) RecyclerView mRecyclerView;
     @BindView(R.id.tv_ingredients_error) TextView mErrorTextView;
     private ArrayList<Ingredients> mIngredients;
+    private boolean mIsTablet;
+    private RecyclerView.LayoutManager mLayoutManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +40,9 @@ public class IngredientsActivity extends AppCompatActivity{
         setContentView(R.layout.activity_ingredient);
         ButterKnife.bind(this);
         mIngredients = this.getIntent().getParcelableArrayListExtra(GET_INGREDIENTS_ARRAYLIST);
+        mIsTablet = getResources().getBoolean(R.bool.is_tablet);
         loadIngredients();
+
     }
 
     private void showErrorMessage(String error){
@@ -47,8 +54,11 @@ public class IngredientsActivity extends AppCompatActivity{
     private void loadIngredients() {
 
         mIngredientsAdapter = new IngredientsAdapter(this, mIngredients);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(layoutManager);
+        if(!mIsTablet) {
+            mLayoutManager = new LinearLayoutManager(this);
+        }else
+            mLayoutManager = new GridLayoutManager(this, 4);
+        mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mIngredientsAdapter);
     }
 }

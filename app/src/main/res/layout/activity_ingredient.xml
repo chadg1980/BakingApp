@@ -22,5 +22,5 @@
         android:paddingBottom="3dp"
         android:scrollbars="vertical"
         />
-
+    <bool android:name="ingredient_is_tablet">false</bool>
 </RelativeLayout>

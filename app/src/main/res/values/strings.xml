@@ -15,4 +15,7 @@
     <string name="next_step">Next Step</string>
     <string name="previous_step">Previous Step</string>
     <string name="no_media_picture">Picture of cupcake, there is no video to play</string>
+
+    <!-- Check if this is a tablet -->
+    <bool name="is_tablet">false</bool>
 </resources>

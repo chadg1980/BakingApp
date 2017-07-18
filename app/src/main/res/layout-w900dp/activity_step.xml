@@ -61,6 +61,6 @@
         android:layout_weight="3">
 
     </FrameLayout>
-
+    <bool android:name="is_tablet">true</bool>
 
 </LinearLayout>
