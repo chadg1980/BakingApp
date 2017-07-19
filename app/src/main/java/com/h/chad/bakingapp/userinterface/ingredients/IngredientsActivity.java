@@ -30,7 +30,6 @@ public class IngredientsActivity extends AppCompatActivity{
     @BindView(R.id.rv_ingredient_recyclerview) RecyclerView mRecyclerView;
     @BindView(R.id.tv_ingredients_error) TextView mErrorTextView;
     private ArrayList<Ingredients> mIngredients;
-    private boolean mIsTablet;
     private RecyclerView.LayoutManager mLayoutManager;
 
 
@@ -40,7 +39,7 @@ public class IngredientsActivity extends AppCompatActivity{
         setContentView(R.layout.activity_ingredient);
         ButterKnife.bind(this);
         mIngredients = this.getIntent().getParcelableArrayListExtra(GET_INGREDIENTS_ARRAYLIST);
-        mIsTablet = getResources().getBoolean(R.bool.is_tablet);
+
         loadIngredients();
 
     }
@@ -54,10 +53,7 @@ public class IngredientsActivity extends AppCompatActivity{
     private void loadIngredients() {
 
         mIngredientsAdapter = new IngredientsAdapter(this, mIngredients);
-        if(!mIsTablet) {
-            mLayoutManager = new LinearLayoutManager(this);
-        }else
-            mLayoutManager = new GridLayoutManager(this, 4);
+        mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mIngredientsAdapter);
     }

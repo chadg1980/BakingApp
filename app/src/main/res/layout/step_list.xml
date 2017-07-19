@@ -7,18 +7,13 @@
     android:layout_height="match_parent"
     android:background="@drawable/polkadot_background"
     android:orientation="vertical"
-    tools:context="com.h.chad.bakingapp.userinterface.steps.StepFragment">
-    <!--
-    This layout is for the two-pane layout for the steps
-    master/detail flow
-    -->
-
-
+    tools:context="com.h.chad.bakingapp.userinterface.steps.StepListActivity">
       <TextView
           android:id="@+id/tv_step_error_message"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:visibility="gone" />
+
 
     <RelativeLayout
         android:id="@+id/rl_ingredient_layout"
@@ -44,23 +39,15 @@
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_step"
+        android:id="@+id/step_list"
+        android:name="com.h.chad.BakingApp.stepListFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="0dp"
         android:paddingBottom="3dp"
+        tools:listitem="this"/>
 
-        />
-
-    <FrameLayout
-        android:id="@+id/mp_step_detail_container"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="3">
-
-    </FrameLayout>
-    <bool android:name="is_tablet">true</bool>
 
 </LinearLayout>

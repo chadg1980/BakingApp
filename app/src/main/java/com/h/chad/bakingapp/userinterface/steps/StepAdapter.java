@@ -25,10 +25,10 @@ import butterknife.ButterKnife;
 
 public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepAdapterViewHolder>{
     private final static String TAG = StepAdapter.class.getName();
-    public Context mContext;
-    public ArrayList<Ingredients> mIngredients;
-    public ArrayList<Steps> mSteps;
-    public boolean mTwoPane;
+    private Context mContext;
+    private ArrayList<Ingredients> mIngredients;
+    private ArrayList<Steps> mSteps;
+    private boolean mTwoPane;
 
     public StepAdapter(Context context, ArrayList<Ingredients> ingredients, ArrayList<Steps> steps
             , boolean twoPane){
@@ -40,28 +40,36 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepAdapterVie
 
     @Override
     public StepAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
         mContext = parent.getContext();
         int layoutIdForStep = R.layout.step_item;
         LayoutInflater inflater = LayoutInflater.from(mContext);
         boolean attachToParentImmediatly = false;
         View view = inflater.inflate(layoutIdForStep, parent, attachToParentImmediatly);
         return new StepAdapterViewHolder(view);
+
     }
 
     @Override
     public void onBindViewHolder(StepAdapterViewHolder holder, final int position) {
         holder.bind(position);
         //When a step gets clicked on, it opens up the step details
+        
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int stepID = mSteps.get(position).getId();
-                Intent stepDetailIntent = new Intent(mContext, StepDetailFragment.class);
-                Bundle args = new Bundle();
-                args.putParcelableArrayList(StepDetailFragment.GET_STEP_ARRAYLIST, mSteps);
-                stepDetailIntent.putExtras(args);
-                stepDetailIntent.putExtra(StepDetailFragment.GET_STEP_ID, stepID);
-                mContext.startActivity(stepDetailIntent);
+                if (mTwoPane) {
+
+                } else {
+                    Context context = v.getContext();
+                    int stepID = mSteps.get(position).getId();
+                    Intent stepDetailIntent = new Intent(context, StepDetailActivity.class);
+                    Bundle args = new Bundle();
+                    args.putParcelableArrayList(StepDetailFragment.GET_STEP_ARRAYLIST, mSteps);
+                    stepDetailIntent.putExtras(args);
+                    stepDetailIntent.putExtra(StepDetailFragment.GET_STEP_ID, stepID);
+                    context.startActivity(stepDetailIntent);
+                }
             }
         });
     }
@@ -71,12 +79,17 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepAdapterVie
         return mSteps.size();
     }
 
-    class StepAdapterViewHolder extends RecyclerView.ViewHolder{
+    public class StepAdapterViewHolder extends RecyclerView.ViewHolder{
         @BindView(R.id.tv_step_number) TextView stepNumber;
         @BindView(R.id.tv_step_short_description) TextView shortDescription;
+        public final View mView;
+
+        public Steps mItem;
 
         public StepAdapterViewHolder(View itemView) {
             super(itemView);
+            mView = itemView;
+
             ButterKnife.bind(this, itemView);
         }
 

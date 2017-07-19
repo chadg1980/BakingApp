@@ -15,7 +15,7 @@ import com.h.chad.bakingapp.R;
 import com.h.chad.bakingapp.model.Ingredients;
 import com.h.chad.bakingapp.model.Recipe;
 import com.h.chad.bakingapp.model.Steps;
-import com.h.chad.bakingapp.userinterface.steps.StepFragment;
+import com.h.chad.bakingapp.userinterface.steps.StepListActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -58,10 +58,11 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeAdap
             public void onClick(View v) {
                 ArrayList<Ingredients> ingredients = mRecipes.get(position).getIngredients();
                 ArrayList<Steps> steps = mRecipes.get(position).getSteps();
-                Intent stepIntent = new Intent(mContext, StepFragment.class);
+                Intent stepIntent = new Intent(mContext, StepListActivity.class);
                 Bundle args = new Bundle();
-                args.putParcelableArrayList(StepFragment.INGREDIENT_DATA, ingredients);
-                args.putParcelableArrayList(StepFragment.STEP_DATA, steps);
+                args.putParcelableArrayList(StepListActivity.INGREDIENT_DATA, ingredients);
+                args.putParcelableArrayList(StepListActivity.STEP_DATA, steps);
+                stepIntent.putExtra(StepListActivity.RECIPE_NAME, mRecipes.get(position).getName());
                 stepIntent.putExtras(args);
                 mContext.startActivity(stepIntent);
             }
