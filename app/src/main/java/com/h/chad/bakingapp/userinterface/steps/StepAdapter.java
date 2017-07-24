@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,6 +60,8 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepAdapterVie
             @Override
             public void onClick(View v) {
                 if (mTwoPane) {
+
+                    Log.e(TAG, "Two Pane!");
 
                 } else {
                     Context context = v.getContext();

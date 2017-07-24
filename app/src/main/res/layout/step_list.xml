@@ -8,13 +8,6 @@
     android:background="@drawable/polkadot_background"
     android:orientation="vertical"
     tools:context="com.h.chad.bakingapp.userinterface.steps.StepListActivity">
-      <TextView
-          android:id="@+id/tv_step_error_message"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:visibility="gone" />
-
-
     <RelativeLayout
         android:id="@+id/rl_ingredient_layout"
         style="@style/cardLikeStyle"

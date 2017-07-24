@@ -36,9 +36,9 @@ public class StepListActivity extends AppCompatActivity {
     public final static String STEP_DATA = "STEP_DATA";
     public final static String RECIPE_NAME = "RECIPE_NAME";
 
-    //@Nullable @BindView(R.id.tv_step_error_message) TextView mErrorMessage;
-    //@BindView(R.id.rv_step) RecyclerView mRecyclerView;
-    //@BindView(R.id.rl_ingredient_layout) RelativeLayout mIngredientLayout;
+
+
+    @BindView(R.id.rl_ingredient_layout) RelativeLayout mIngredientLayout;
     private ArrayList<Steps> mSteps;
     private ArrayList<Ingredients> mIngredients;
 
@@ -50,13 +50,14 @@ public class StepListActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_step_list);
-        //ButterKnife.bind(this);
+        ButterKnife.bind(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(this.getIntent().getStringExtra(RECIPE_NAME));
         //Get the data passed from the recipe
         mIngredients = this.getIntent().getExtras().getParcelableArrayList(INGREDIENT_DATA);
         mSteps = this.getIntent().getExtras().getParcelableArrayList(STEP_DATA);
+        mContext = this;
         if(findViewById(R.id.mp_step_detail_container) != null){
             mTwoPane = true;
         }
@@ -65,20 +66,17 @@ public class StepListActivity extends AppCompatActivity {
         assert recyclerView != null;
         setUpRecyclerView((RecyclerView) recyclerView);
 
-
-
-        /*
         mIngredientLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent ingredientIntent = new Intent(, IngredientsActivity.class);
+                Intent ingredientIntent = new Intent(mContext, IngredientsActivity.class);
                 Bundle args = new Bundle();
                 args.putParcelableArrayList(IngredientsActivity.GET_INGREDIENTS_ARRAYLIST, mIngredients);
                 ingredientIntent.putExtras(args);
                 mContext.startActivity(ingredientIntent);
             }
         });
-        */
+
        
     }
 

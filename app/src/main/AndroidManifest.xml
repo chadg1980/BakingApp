@@ -20,7 +20,13 @@
         </activity>
         <activity android:name=".userinterface.steps.StepListActivity"/>
         <activity android:name=".userinterface.ingredients.IngredientsActivity"/>
-        <activity android:name=".userinterface.steps.StepDetailFragment"/>
+
+        <activity android:name=".userinterface.steps.StepDetailActivity"
+            android:parentActivityName=".userinterface.steps.StepListActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".userinterface.steps.StepListActivity"/>
+        </activity>
     </application>
 
 </manifest>

@@ -1,14 +1,12 @@
 package com.h.chad.bakingapp.userinterface.steps;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -38,7 +36,6 @@ import com.h.chad.bakingapp.model.Steps;
 import java.util.ArrayList;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Created by chad on 7/10/2017.
@@ -77,18 +74,20 @@ public class StepDetailFragment extends Fragment {
     }
 
     private void setArguments(ArrayList<Parcelable> parcelableArrayListExtra) {
+        Log.e(TAG, "FRAGMENT STARTED *****");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         View rootView = inflater.inflate(R.layout.step_detail, container, false);
+        ((TextView)rootView.findViewById(R.id.step_detail)).setText("HELLO WORLD!");
 
         //exoplayer
-        mShouldAutoPlay = true;
-        mBandwidthMeter = new DefaultBandwidthMeter();
-        mMediaDataSourceFactory = new DefaultDataSourceFactory(mContext, Util.getUserAgent(
-                mContext, "Baking App"), (TransferListener<? super DataSource>) mBandwidthMeter);
+        //mShouldAutoPlay = true;
+        //mBandwidthMeter = new DefaultBandwidthMeter();
+        //mMediaDataSourceFactory = new DefaultDataSourceFactory(mContext, Util.getUserAgent(
+        //        mContext, "Baking App"), (TransferListener<? super DataSource>) mBandwidthMeter);
 
 
         return rootView;
@@ -116,6 +115,7 @@ public class StepDetailFragment extends Fragment {
     }
 
     //Setting up the Exoplayer.
+    /*
     private void setupVideoPlayer(){
         mVideoPlayerView.requestFocus();
 
@@ -183,4 +183,5 @@ public class StepDetailFragment extends Fragment {
             releasePlayer();
         }
     }
+    */
 }
