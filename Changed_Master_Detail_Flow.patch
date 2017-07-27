@@ -1,0 +1,576 @@
+Index: app/src/main/java/com/h/chad/bakingapp/userinterface/steps/StepListActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/h/chad/bakingapp/userinterface/steps/StepListActivity.java	(revision 5ecde315a584318ff722774e17cc1c2da903c802)
++++ app/src/main/java/com/h/chad/bakingapp/userinterface/steps/StepListActivity.java	(revision )
+@@ -36,9 +36,9 @@
+     public final static String STEP_DATA = "STEP_DATA";
+     public final static String RECIPE_NAME = "RECIPE_NAME";
+ 
+-    //@Nullable @BindView(R.id.tv_step_error_message) TextView mErrorMessage;
+-    //@BindView(R.id.rv_step) RecyclerView mRecyclerView;
+-    //@BindView(R.id.rl_ingredient_layout) RelativeLayout mIngredientLayout;
++
++
++    @BindView(R.id.rl_ingredient_layout) RelativeLayout mIngredientLayout;
+     private ArrayList<Steps> mSteps;
+     private ArrayList<Ingredients> mIngredients;
+ 
+@@ -50,13 +50,14 @@
+     public void onCreate(Bundle savedInstanceState) {
+         super.onCreate(savedInstanceState);
+         setContentView(R.layout.activity_step_list);
+-        //ButterKnife.bind(this);
++        ButterKnife.bind(this);
+ 
+         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+         toolbar.setTitle(this.getIntent().getStringExtra(RECIPE_NAME));
+         //Get the data passed from the recipe
+         mIngredients = this.getIntent().getExtras().getParcelableArrayList(INGREDIENT_DATA);
+         mSteps = this.getIntent().getExtras().getParcelableArrayList(STEP_DATA);
++        mContext = this;
+         if(findViewById(R.id.mp_step_detail_container) != null){
+             mTwoPane = true;
+         }
+@@ -65,20 +66,17 @@
+         assert recyclerView != null;
+         setUpRecyclerView((RecyclerView) recyclerView);
+ 
+-
+-
+-        /*
+         mIngredientLayout.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+-                Intent ingredientIntent = new Intent(, IngredientsActivity.class);
++                Intent ingredientIntent = new Intent(mContext, IngredientsActivity.class);
+                 Bundle args = new Bundle();
+                 args.putParcelableArrayList(IngredientsActivity.GET_INGREDIENTS_ARRAYLIST, mIngredients);
+                 ingredientIntent.putExtras(args);
+                 mContext.startActivity(ingredientIntent);
+             }
+         });
+-        */
++
+        
+     }
+ 
+Index: app/src/main/res/values-w900dp/colors.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values-w900dp/colors.xml	(revision )
++++ app/src/main/res/values-w900dp/colors.xml	(revision )
+@@ -0,0 +1,9 @@
++<?xml version="1.0" encoding="utf-8"?>
++<resources>
++    <color name="colorPrimary">#E598AC</color>
++    <color name="colorPrimaryDark">#303F9F</color>
++    <color name="colorAccent">#FF4081</color>
++    <color name="backgroundGray">#E9EBEE</color>
++    <color name="cardBackground">#FBD9E2</color>
++    <color name="app_black">#000000</color>
++</resources>
+Index: app/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/AndroidManifest.xml	(revision 5ecde315a584318ff722774e17cc1c2da903c802)
++++ app/src/main/AndroidManifest.xml	(revision )
+@@ -20,7 +20,13 @@
+         </activity>
+         <activity android:name=".userinterface.steps.StepListActivity"/>
+         <activity android:name=".userinterface.ingredients.IngredientsActivity"/>
+-        <activity android:name=".userinterface.steps.StepDetailFragment"/>
++
++        <activity android:name=".userinterface.steps.StepDetailActivity"
++            android:parentActivityName=".userinterface.steps.StepListActivity">
++            <meta-data
++                android:name="android.support.PARENT_ACTIVITY"
++                android:value=".userinterface.steps.StepListActivity"/>
++        </activity>
+     </application>
+ 
+ </manifest>
+\ No newline at end of file
+Index: app/src/main/res/layout/step_detail.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/step_detail.xml	(revision 5ecde315a584318ff722774e17cc1c2da903c802)
++++ app/src/main/res/layout/step_detail.xml	(revision )
+@@ -1,78 +1,12 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<LinearLayout
+-    xmlns:android="http://schemas.android.com/apk/res/android"
++<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:tools="http://schemas.android.com/tools"
++    android:id="@+id/step_detail"
++    style="?android:attr/textAppearanceLarge"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
+-    android:orientation="vertical"
+-    android:background="@drawable/polkadot_background">
++    android:padding="16dp"
++    android:textIsSelectable="true"
++    tools:context=".userinterface.steps.StepDetailFragment">
+ 
+-
+-
+-    <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+-        android:id="@+id/mp_step_detail"
+-        android:layout_width="match_parent"
+-        android:layout_height="0dp"
+-        android:layout_weight="4"
+-         />
+-    <RelativeLayout
+-        android:id="@+id/layout_no_media"
+-        android:layout_width="match_parent"
+-        android:layout_height="0dp"
+-        android:layout_weight="4"
+-        android:visibility="gone">
+-    <ImageView
+-        android:id="@+id/iv_no_media"
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:src="@drawable/cupcake"
+-        android:padding="1dp"
+-        android:contentDescription="@string/no_media_picture"/>
+-
+-    </RelativeLayout>
+-
+-    <TextView
+-        android:id="@+id/tv_step_detail_instructions"
+-        android:layout_width="match_parent"
+-        android:layout_height="0dp"
+-        android:layout_weight="4"
+-        android:background="@color/cardBackground"
+-        style="@style/cardItemStyle"
+-        android:paddingLeft="8dp"
+-        android:paddingRight="8dp"
+-        android:paddingTop="8dp"
+-        android:textSize="20sp"
+-
+-         />
+-    <LinearLayout
+-        android:layout_width="match_parent"
+-        android:layout_height="0dp"
+-        android:layout_weight="1"
+-        android:orientation="horizontal"
+-        android:background="@android:color/black"
+-        >
+-        <TextView
+-            android:id="@+id/tv_previous_step"
+-            android:layout_width="0dp"
+-            android:layout_height="match_parent"
+-            android:layout_weight="1"
+-            android:text="@string/previous_step"
+-            android:gravity="center"
+-            android:layout_marginRight="1dp"
+-            android:background="@color/backgroundGray"
+-
+-            android:clickable="true"/>
+-
+-        <TextView
+-            android:id="@+id/tv_next_step"
+-            android:layout_width="0dp"
+-            android:layout_height="match_parent"
+-            android:layout_weight="1"
+-            android:text="@string/next_step"
+-            android:gravity="center"
+-            android:background="@color/backgroundGray"
+-            android:clickable="true"/>
+-
+-
+-    </LinearLayout>
+-</LinearLayout>
+\ No newline at end of file
++</TextView>
+\ No newline at end of file
+Index: app/src/main/res/values-w900dp/styles.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values-w900dp/styles.xml	(revision )
++++ app/src/main/res/values-w900dp/styles.xml	(revision )
+@@ -0,0 +1,33 @@
++<resources>
++
++    <!-- Base application theme. -->
++    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
++        <!-- Customize your theme here. -->
++        <item name="colorPrimary">@color/colorPrimary</item>
++        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
++        <item name="colorAccent">@color/colorAccent</item>
++    </style>
++
++    <style name="cardItemStyle">
++        <item name="android:textColor">@android:color/white</item>
++        <item name="android:textStyle">bold</item>
++        <item name="android:fontFamily">serif</item>
++
++        <item name="android:shadowColor">@android:color/black</item>
++        <item name="android:shadowDx">2</item>
++        <item name="android:shadowDy">2</item>
++        <item name="android:shadowRadius">2</item>
++    </style>
++
++    <style name="cardLikeStyle">
++        <item name="android:layout_width">match_parent</item>
++        <item name="android:layout_height">match_parent</item>
++        <item name="android:layout_marginTop">8dp</item>
++        <item name="android:paddingTop">8dp</item>
++        <item name="android:paddingBottom">8dp</item>
++        <item name="android:background">@drawable/cardrect</item>
++        <item name="android:elevation">2dp</item>
++
++    </style>
++
++</resources>
+Index: app/src/main/java/com/h/chad/bakingapp/userinterface/steps/StepDetailActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/h/chad/bakingapp/userinterface/steps/StepDetailActivity.java	(revision 5ecde315a584318ff722774e17cc1c2da903c802)
++++ app/src/main/java/com/h/chad/bakingapp/userinterface/steps/StepDetailActivity.java	(revision )
+@@ -1,8 +1,102 @@
+ package com.h.chad.bakingapp.userinterface.steps;
+ 
++import android.content.Context;
++import android.content.Intent;
++import android.net.Uri;
++import android.os.Bundle;
++import android.os.Parcelable;
++import android.support.annotation.Nullable;
++import android.support.v4.app.NavUtils;
++import android.support.v4.content.ContextCompat;
++import android.support.v7.app.ActionBar;
++import android.support.v7.app.AppCompatActivity;
++import android.support.v7.widget.Toolbar;
++import android.text.TextUtils;
++import android.util.Log;
++import android.view.LayoutInflater;
++import android.view.MenuItem;
++import android.view.View;
++import android.view.ViewGroup;
++import android.widget.RelativeLayout;
++import android.widget.TextView;
++
++import com.google.android.exoplayer2.ExoPlayerFactory;
++import com.google.android.exoplayer2.SimpleExoPlayer;
++import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
++import com.google.android.exoplayer2.source.ExtractorMediaSource;
++import com.google.android.exoplayer2.source.MediaSource;
++import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
++import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
++import com.google.android.exoplayer2.trackselection.TrackSelection;
++import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
++import com.google.android.exoplayer2.upstream.BandwidthMeter;
++import com.google.android.exoplayer2.upstream.DataSource;
++import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
++import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
++import com.google.android.exoplayer2.upstream.TransferListener;
++import com.google.android.exoplayer2.util.Util;
++import com.h.chad.bakingapp.R;
++import com.h.chad.bakingapp.model.Steps;
++
++import java.util.ArrayList;
++
++import butterknife.BindView;
++import butterknife.ButterKnife;
++
+ /**
+  * Created by chad on 7/18/2017.
+  */
+ 
+-public class StepDetailActivity {
++public class StepDetailActivity extends AppCompatActivity {
++
++    public final static String TAG = StepDetailActivity.class.getName();
++
++    /* Constant for getting the step details*/
++    public final static String GET_STEP_ARRAYLIST = "GET_STEP_ARRAYLIST";
++    public final static String GET_STEP_ID = "GET_STEP_ID";
++
++    ArrayList<Steps> mSteps;
++    int currentStepID;
++    public Context mContext;
++
++    @Override
++    protected void onCreate(Bundle savedInstanceState) {
++        super.onCreate(savedInstanceState);
++        setContentView(R.layout.activity_step_detail);
++
++        mSteps = this.getIntent().getParcelableArrayListExtra(GET_STEP_ARRAYLIST);
++        currentStepID = this.getIntent().getIntExtra(GET_STEP_ID, -1);
++
++        if(savedInstanceState == null){
++            Bundle args = new Bundle();
++            //args.putParcelableArrayList(StepListActivity.INGREDIENT_DATA, ingredients);
++            args.putParcelableArrayList(StepListActivity.STEP_DATA, mSteps);
++            StepDetailFragment fragment = new StepDetailFragment();
++            fragment.setArguments(args);
++            getSupportFragmentManager().beginTransaction()
++                    .add(R.id.mp_step_detail_container, fragment)
++                    .commit();
++            //stepIntent.putExtra(StepListActivity.RECIPE_NAME, mRecipes.get(position).getName());
++            //stepIntent.putExtras(args);
++            //mContext.startActivity(stepIntent);
++        }
++
++        ButterKnife.bind(this);
++        mContext = this;
++
++        if (currentStepID < 0) {
++            Log.e(TAG, "Step ID did not come through ID:" + currentStepID);
++        }
++ }
++
++    @Override
++    public boolean onOptionsItemSelected(MenuItem item) {
++        switch (item.getItemId()) {
++            //Respond to the action bar's Up/Home button
++            case android.R.id.home:
++                NavUtils.navigateUpFromSameTask(this);
++                return true;
++        }
++        return super.onOptionsItemSelected(item);
++    }
+ }
+Index: app/src/main/java/com/h/chad/bakingapp/userinterface/steps/StepDetailFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/h/chad/bakingapp/userinterface/steps/StepDetailFragment.java	(revision 5ecde315a584318ff722774e17cc1c2da903c802)
++++ app/src/main/java/com/h/chad/bakingapp/userinterface/steps/StepDetailFragment.java	(revision )
+@@ -1,14 +1,12 @@
+ package com.h.chad.bakingapp.userinterface.steps;
+ 
+ import android.content.Context;
+-import android.content.Intent;
+ import android.net.Uri;
+ import android.os.Bundle;
+ import android.os.Parcelable;
+ import android.support.annotation.Nullable;
+ import android.support.v4.app.Fragment;
+ import android.support.v4.content.ContextCompat;
+-import android.support.v7.app.AppCompatActivity;
+ import android.text.TextUtils;
+ import android.util.Log;
+ import android.view.LayoutInflater;
+@@ -38,7 +36,6 @@
+ import java.util.ArrayList;
+ 
+ import butterknife.BindView;
+-import butterknife.ButterKnife;
+ 
+ /**
+  * Created by chad on 7/10/2017.
+@@ -77,18 +74,20 @@
+     }
+ 
+     private void setArguments(ArrayList<Parcelable> parcelableArrayListExtra) {
++        Log.e(TAG, "FRAGMENT STARTED *****");
+     }
+ 
+     @Override
+     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+         super.onCreate(savedInstanceState);
+         View rootView = inflater.inflate(R.layout.step_detail, container, false);
++        ((TextView)rootView.findViewById(R.id.step_detail)).setText("HELLO WORLD!");
+ 
+         //exoplayer
+-        mShouldAutoPlay = true;
+-        mBandwidthMeter = new DefaultBandwidthMeter();
+-        mMediaDataSourceFactory = new DefaultDataSourceFactory(mContext, Util.getUserAgent(
+-                mContext, "Baking App"), (TransferListener<? super DataSource>) mBandwidthMeter);
++        //mShouldAutoPlay = true;
++        //mBandwidthMeter = new DefaultBandwidthMeter();
++        //mMediaDataSourceFactory = new DefaultDataSourceFactory(mContext, Util.getUserAgent(
++        //        mContext, "Baking App"), (TransferListener<? super DataSource>) mBandwidthMeter);
+ 
+ 
+         return rootView;
+@@ -116,6 +115,7 @@
+     }
+ 
+     //Setting up the Exoplayer.
++    /*
+     private void setupVideoPlayer(){
+         mVideoPlayerView.requestFocus();
+ 
+@@ -183,4 +183,5 @@
+             releasePlayer();
+         }
+     }
++    */
+ }
+Index: app/src/main/res/layout/step_list.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/step_list.xml	(revision 5ecde315a584318ff722774e17cc1c2da903c802)
++++ app/src/main/res/layout/step_list.xml	(revision )
+@@ -8,13 +8,6 @@
+     android:background="@drawable/polkadot_background"
+     android:orientation="vertical"
+     tools:context="com.h.chad.bakingapp.userinterface.steps.StepListActivity">
+-      <TextView
+-          android:id="@+id/tv_step_error_message"
+-          android:layout_width="wrap_content"
+-          android:layout_height="wrap_content"
+-          android:visibility="gone" />
+-
+-
+     <RelativeLayout
+         android:id="@+id/rl_ingredient_layout"
+         style="@style/cardLikeStyle"
+Index: app/src/main/res/values/styles.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values/styles.xml	(revision 5ecde315a584318ff722774e17cc1c2da903c802)
++++ app/src/main/res/values/styles.xml	(revision )
+@@ -8,6 +8,16 @@
+         <item name="colorAccent">@color/colorAccent</item>
+     </style>
+ 
++    <style name="AppTheme.NoActionBar">
++        <item name="windowActionBar">true</item>
++        <item name="windowNoTitle">true</item>
++    </style>
++
++    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
++
++    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
++
++
+     <style name="cardItemStyle">
+         <item name="android:textColor">@android:color/white</item>
+         <item name="android:textStyle">bold</item>
+Index: app/src/main/java/com/h/chad/bakingapp/userinterface/steps/StepAdapter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/h/chad/bakingapp/userinterface/steps/StepAdapter.java	(revision 5ecde315a584318ff722774e17cc1c2da903c802)
++++ app/src/main/java/com/h/chad/bakingapp/userinterface/steps/StepAdapter.java	(revision )
+@@ -5,6 +5,7 @@
+ import android.os.Bundle;
+ import android.support.v7.widget.RecyclerView;
+ import android.text.TextUtils;
++import android.util.Log;
+ import android.view.LayoutInflater;
+ import android.view.View;
+ import android.view.ViewGroup;
+@@ -59,6 +60,8 @@
+             @Override
+             public void onClick(View v) {
+                 if (mTwoPane) {
++
++                    Log.e(TAG, "Two Pane!");
+ 
+                 } else {
+                     Context context = v.getContext();
+Index: app/src/main/res/layout/activity_step_detail.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_step_detail.xml	(revision )
++++ app/src/main/res/layout/activity_step_detail.xml	(revision )
+@@ -0,0 +1,83 @@
++<?xml version="1.0" encoding="utf-8"?>
++<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:tools="http://schemas.android.com/tools"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent"
++    xmlns:app="http://schemas.android.com/apk/res-auto"
++    android:orientation="vertical"
++
++    android:background="@drawable/polkadot_background">
++
++    <android.support.v4.widget.NestedScrollView
++        android:id="@+id/mp_step_detail_container"
++        android:layout_width="match_parent"
++        android:layout_height="match_parent"
++        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
++
++    <com.google.android.exoplayer2.ui.SimpleExoPlayerView
++        android:id="@+id/mp_step_detail"
++        android:layout_width="match_parent"
++        android:layout_height="0dp"
++        android:layout_weight="4"
++         />
++    <RelativeLayout
++        android:id="@+id/layout_no_media"
++        android:layout_width="match_parent"
++        android:layout_height="0dp"
++        android:layout_weight="4"
++        android:visibility="gone">
++    <ImageView
++        android:id="@+id/iv_no_media"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:src="@drawable/cupcake"
++        android:padding="1dp"
++        android:contentDescription="@string/no_media_picture"/>
++
++    </RelativeLayout>
++
++    <TextView
++        android:id="@+id/tv_step_detail_instructions"
++        android:layout_width="match_parent"
++        android:layout_height="0dp"
++        android:layout_weight="4"
++        android:background="@color/cardBackground"
++        style="@style/cardItemStyle"
++        android:paddingLeft="8dp"
++        android:paddingRight="8dp"
++        android:paddingTop="8dp"
++        android:textSize="20sp"
++
++         />
++    <LinearLayout
++        android:layout_width="match_parent"
++        android:layout_height="0dp"
++        android:layout_weight="1"
++        android:orientation="horizontal"
++        android:background="@android:color/black"
++        >
++        <TextView
++            android:id="@+id/tv_previous_step"
++            android:layout_width="0dp"
++            android:layout_height="match_parent"
++            android:layout_weight="1"
++            android:text="@string/previous_step"
++            android:gravity="center"
++            android:layout_marginRight="1dp"
++            android:background="@color/backgroundGray"
++
++            android:clickable="true"/>
++
++        <TextView
++            android:id="@+id/tv_next_step"
++            android:layout_width="0dp"
++            android:layout_height="match_parent"
++            android:layout_weight="1"
++            android:text="@string/next_step"
++            android:gravity="center"
++            android:background="@color/backgroundGray"
++            android:clickable="true"/>
++
++
++    </LinearLayout>
++</LinearLayout>
+\ No newline at end of file

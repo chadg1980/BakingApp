@@ -48,7 +48,6 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepAdapterVie
         boolean attachToParentImmediatly = false;
         View view = inflater.inflate(layoutIdForStep, parent, attachToParentImmediatly);
         return new StepAdapterViewHolder(view);
-
     }
 
     @Override

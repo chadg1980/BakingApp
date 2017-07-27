@@ -3,6 +3,7 @@
     package="com.h.chad.bakingapp">
     <uses-permission android:name="android.permission.INTERNET" />
 
+
     <application
         android:allowBackup="true"
         android:hardwareAccelerated="true"
@@ -11,6 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity android:name=".userinterface.recipe.RecipeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,6 +29,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".userinterface.steps.StepListActivity"/>
         </activity>
+
     </application>
 
 </manifest>

@@ -31,12 +31,11 @@ import butterknife.ButterKnife;
 public class StepListActivity extends AppCompatActivity {
 
     public final static String TAG = StepListActivity.class.getName();
+
     /* Constants for passing data through intents and parcelable */
     public final static String INGREDIENT_DATA = "INGREDIENT_DATA";
     public final static String STEP_DATA = "STEP_DATA";
     public final static String RECIPE_NAME = "RECIPE_NAME";
-
-
 
     @BindView(R.id.rl_ingredient_layout) RelativeLayout mIngredientLayout;
     private ArrayList<Steps> mSteps;
@@ -45,15 +44,16 @@ public class StepListActivity extends AppCompatActivity {
     //Weather or not the activity is run on a tablet, this should be in two-pane mode
     private boolean mTwoPane;
     private Context mContext;
+    private String mCurrentRecipe;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_step_list);
         ButterKnife.bind(this);
+        mCurrentRecipe = this.getIntent().getStringExtra(RECIPE_NAME);
+        getSupportActionBar().setTitle(mCurrentRecipe);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(this.getIntent().getStringExtra(RECIPE_NAME));
         //Get the data passed from the recipe
         mIngredients = this.getIntent().getExtras().getParcelableArrayList(INGREDIENT_DATA);
         mSteps = this.getIntent().getExtras().getParcelableArrayList(STEP_DATA);
@@ -72,12 +72,11 @@ public class StepListActivity extends AppCompatActivity {
                 Intent ingredientIntent = new Intent(mContext, IngredientsActivity.class);
                 Bundle args = new Bundle();
                 args.putParcelableArrayList(IngredientsActivity.GET_INGREDIENTS_ARRAYLIST, mIngredients);
+                args.putString(RECIPE_NAME, mCurrentRecipe);
                 ingredientIntent.putExtras(args);
                 mContext.startActivity(ingredientIntent);
             }
         });
-
-       
     }
 
     private void setUpRecyclerView(RecyclerView recyclerView) {

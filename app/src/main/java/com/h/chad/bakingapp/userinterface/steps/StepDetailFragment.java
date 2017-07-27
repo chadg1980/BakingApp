@@ -12,11 +12,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.VideoView;
 
+import com.google.android.exoplayer2.DefaultLoadControl;
+import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
@@ -28,6 +33,7 @@ import com.google.android.exoplayer2.upstream.BandwidthMeter;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
+import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.upstream.TransferListener;
 import com.google.android.exoplayer2.util.Util;
 import com.h.chad.bakingapp.R;
@@ -36,6 +42,9 @@ import com.h.chad.bakingapp.model.Steps;
 import java.util.ArrayList;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 
 /**
  * Created by chad on 7/10/2017.
@@ -50,22 +59,26 @@ public class StepDetailFragment extends Fragment {
     public final static String GET_STEP_ID = "GET_STEP_ID";
 
     @BindView(R.id.tv_step_detail_instructions) TextView mInstructions;
-    @BindView(R.id.tv_previous_step) TextView mPreviousStep;
-    @BindView(R.id.tv_next_step) TextView mNextStep;
-    @BindView(R.id.mp_step_detail) SimpleExoPlayerView mVideoPlayerView;
-    @BindView(R.id.layout_no_media)
-    RelativeLayout mNoVideo;
+    @BindView(R.id.tv_previous_step) TextView mButtonPreviousStep;
+    @BindView(R.id.tv_next_step) TextView mButtonNextStep;
+
     ArrayList<Steps> mSteps;
-    int currentStepID;
     public Context mContext;
 
+    //Exoplayer
+    @BindView(R.id.mp_step_detail) SimpleExoPlayerView mVideoPlayerView;
     private DataSource.Factory mMediaDataSourceFactory;
     private SimpleExoPlayer mPlayer;
     private DefaultTrackSelector mTrackSelector;
     private boolean mShouldAutoPlay;
     private BandwidthMeter mBandwidthMeter;
-    private int mLastStep;
 
+    //If No Video for Exoplayer
+    @BindView(R.id.layout_no_media) RelativeLayout mNoMedia;
+
+    private int mCurentStep;
+    private int mLastStep;
+    public View mRootView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,46 +93,60 @@ public class StepDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        View rootView = inflater.inflate(R.layout.step_detail, container, false);
-        ((TextView)rootView.findViewById(R.id.step_detail)).setText("HELLO WORLD!");
+        mRootView = inflater.inflate(R.layout.step_detail, container, false);
+        ButterKnife.bind(this, mRootView);
+
+        Bundle args = getArguments();
+        mCurentStep = args.getInt(GET_STEP_ID);
+        mSteps =  args.getParcelableArrayList(StepListActivity.STEP_DATA);
+        assert mSteps != null;
+        mLastStep = mSteps.size();
+        String instructions = mSteps.get(mCurentStep).getDescription();
+        if(!TextUtils.isEmpty(instructions)) {
+            mInstructions.setText(instructions);
+        }else{
+            mInstructions.setText("No instructions this step");
+        }
+        mContext = getActivity();
 
         //exoplayer
-        //mShouldAutoPlay = true;
-        //mBandwidthMeter = new DefaultBandwidthMeter();
-        //mMediaDataSourceFactory = new DefaultDataSourceFactory(mContext, Util.getUserAgent(
-        //        mContext, "Baking App"), (TransferListener<? super DataSource>) mBandwidthMeter);
+        mShouldAutoPlay = true;
+        mBandwidthMeter = new DefaultBandwidthMeter();
+        mMediaDataSourceFactory = new DefaultDataSourceFactory(mContext, Util.getUserAgent(
+                mContext, "Baking App"), (TransferListener<? super DataSource>) mBandwidthMeter);
+        Timeline.Window window = new Timeline.Window();
 
-
-        return rootView;
+        return mRootView;
     }
 
     //For the nex previous button, make sure there is a next step or previous step
     public void checkStep() {
 
-        if (currentStepID <= 0) {
-            mPreviousStep.setClickable(false);
-            mPreviousStep.setBackgroundColor(ContextCompat.getColor(mContext, R.color.app_black));
+        if (mCurentStep <= 0) {
+            mButtonPreviousStep.setClickable(false);
+            mButtonPreviousStep.setBackgroundColor(ContextCompat.getColor(mContext, R.color.app_black));
         } else {
-            mPreviousStep.setClickable(true);
-            mPreviousStep.setBackgroundColor(ContextCompat.getColor(mContext, R.color.backgroundGray));
+            mButtonPreviousStep.setClickable(true);
+            mButtonPreviousStep.setBackgroundColor(ContextCompat.getColor(mContext, R.color.backgroundGray));
         }
 
-        if (currentStepID >= mLastStep) {
-            mNextStep.setClickable(false);
-            mNextStep.setBackgroundColor(ContextCompat.getColor(mContext, R.color.app_black));
+        if (mCurentStep >= mLastStep) {
+            mButtonNextStep.setClickable(false);
+            mButtonNextStep.setBackgroundColor(ContextCompat.getColor(mContext, R.color.app_black));
         } else {
-            mNextStep.setClickable(true);
-            mNextStep.setBackgroundColor(ContextCompat.getColor(mContext, R.color.backgroundGray));
+            mButtonNextStep.setClickable(true);
+            mButtonNextStep.setBackgroundColor(ContextCompat.getColor(mContext, R.color.backgroundGray));
         }
 
     }
 
     //Setting up the Exoplayer.
-    /*
+
     private void setupVideoPlayer(){
+
         mVideoPlayerView.requestFocus();
 
-        TrackSelection.Factory videoTrackSelectionFactory =
+       TrackSelection.Factory videoTrackSelectionFactory =
                 new AdaptiveTrackSelection.Factory(mBandwidthMeter);
         mTrackSelector = new DefaultTrackSelector(videoTrackSelectionFactory);
         mPlayer = ExoPlayerFactory.newSimpleInstance(mContext, mTrackSelector);
@@ -127,22 +154,36 @@ public class StepDetailFragment extends Fragment {
         mPlayer.setPlayWhenReady(mShouldAutoPlay);
 
         DefaultExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
-        String mediaUrl = new String();
-        mediaUrl = mSteps.get(currentStepID).getVideoURL();
 
-        Log.e(TAG, mediaUrl);
-        if(!TextUtils.isEmpty(mediaUrl)) {
-            MediaSource mediaSource = new ExtractorMediaSource(Uri.parse(mediaUrl),
-                    mMediaDataSourceFactory, extractorsFactory, null, null);
+
+        String stepVideoUrlString = new String();
+
+         stepVideoUrlString = mSteps.get(mCurentStep).getVideoURL();
+
+
+        if(!TextUtils.isEmpty(stepVideoUrlString)) {
+
+            MediaSource mediaSource = new ExtractorMediaSource(
+                    Uri.parse(stepVideoUrlString),
+                    mMediaDataSourceFactory,
+                    extractorsFactory,
+                    null,
+                    null);
             mPlayer.prepare(mediaSource);
+
+            mPlayer.prepare(mediaSource, true, false);
+
         }
         else {
             mVideoPlayerView.setVisibility(View.GONE);
-            mNoVideo.setVisibility(View.VISIBLE);
+            mNoMedia.setVisibility(View.VISIBLE);
+
             releasePlayer();
         }
 
     }
+
+
     private void releasePlayer(){
         if(mPlayer != null){
             mShouldAutoPlay = mPlayer.getPlayWhenReady();
@@ -163,10 +204,13 @@ public class StepDetailFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        hideSystemUi();
         if((Util.SDK_INT <=23 || mPlayer == null)){
             setupVideoPlayer();
         }
     }
+
+
 
     @Override
     public void onPause() {
@@ -183,5 +227,12 @@ public class StepDetailFragment extends Fragment {
             releasePlayer();
         }
     }
-    */
+    private void hideSystemUi() {
+        mVideoPlayerView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+    }
 }

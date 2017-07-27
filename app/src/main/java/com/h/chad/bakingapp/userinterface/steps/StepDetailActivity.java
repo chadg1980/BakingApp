@@ -1,47 +1,19 @@
 package com.h.chad.bakingapp.userinterface.steps;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.support.annotation.Nullable;
-import android.support.v4.app.NavUtils;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
-import com.google.android.exoplayer2.ExoPlayerFactory;
-import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
-import com.google.android.exoplayer2.source.ExtractorMediaSource;
-import com.google.android.exoplayer2.source.MediaSource;
-import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
-import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
-import com.google.android.exoplayer2.trackselection.TrackSelection;
-import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
-import com.google.android.exoplayer2.upstream.BandwidthMeter;
-import com.google.android.exoplayer2.upstream.DataSource;
-import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
-import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
-import com.google.android.exoplayer2.upstream.TransferListener;
-import com.google.android.exoplayer2.util.Util;
+import android.support.v4.app.NavUtils;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.MenuItem;
 import com.h.chad.bakingapp.R;
 import com.h.chad.bakingapp.model.Steps;
-
 import java.util.ArrayList;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.h.chad.bakingapp.userinterface.steps.StepListActivity.RECIPE_NAME;
 
 /**
  * Created by chad on 7/18/2017.
@@ -58,6 +30,7 @@ public class StepDetailActivity extends AppCompatActivity {
     ArrayList<Steps> mSteps;
     int currentStepID;
     public Context mContext;
+    private String mCurrentRecipe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,11 +39,14 @@ public class StepDetailActivity extends AppCompatActivity {
 
         mSteps = this.getIntent().getParcelableArrayListExtra(GET_STEP_ARRAYLIST);
         currentStepID = this.getIntent().getIntExtra(GET_STEP_ID, -1);
+        mCurrentRecipe = this.getIntent().getStringExtra(RECIPE_NAME);
+        getSupportActionBar().setTitle(mCurrentRecipe);
 
         if(savedInstanceState == null){
             Bundle args = new Bundle();
             //args.putParcelableArrayList(StepListActivity.INGREDIENT_DATA, ingredients);
             args.putParcelableArrayList(StepListActivity.STEP_DATA, mSteps);
+            args.putInt(StepDetailFragment.GET_STEP_ID, currentStepID);
             StepDetailFragment fragment = new StepDetailFragment();
             fragment.setArguments(args);
             getSupportFragmentManager().beginTransaction()

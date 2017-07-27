@@ -5,79 +5,12 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-
     android:background="@drawable/polkadot_background">
 
-    <android.support.v4.widget.NestedScrollView
+    <FrameLayout
         android:id="@+id/mp_step_detail_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
-    <com.google.android.exoplayer2.ui.SimpleExoPlayerView
-        android:id="@+id/mp_step_detail"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="4"
          />
-    <RelativeLayout
-        android:id="@+id/layout_no_media"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="4"
-        android:visibility="gone">
-    <ImageView
-        android:id="@+id/iv_no_media"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/cupcake"
-        android:padding="1dp"
-        android:contentDescription="@string/no_media_picture"/>
 
-    </RelativeLayout>
-
-    <TextView
-        android:id="@+id/tv_step_detail_instructions"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="4"
-        android:background="@color/cardBackground"
-        style="@style/cardItemStyle"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        android:paddingTop="8dp"
-        android:textSize="20sp"
-
-         />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal"
-        android:background="@android:color/black"
-        >
-        <TextView
-            android:id="@+id/tv_previous_step"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="@string/previous_step"
-            android:gravity="center"
-            android:layout_marginRight="1dp"
-            android:background="@color/backgroundGray"
-
-            android:clickable="true"/>
-
-        <TextView
-            android:id="@+id/tv_next_step"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="@string/next_step"
-            android:gravity="center"
-            android:background="@color/backgroundGray"
-            android:clickable="true"/>
-
-
-    </LinearLayout>
 </LinearLayout>
