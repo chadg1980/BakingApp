@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import com.h.chad.bakingapp.R;
@@ -26,6 +27,8 @@ public class StepDetailActivity extends AppCompatActivity {
     /* Constant for getting the step details*/
     public final static String GET_STEP_ARRAYLIST = "GET_STEP_ARRAYLIST";
     public final static String GET_STEP_ID = "GET_STEP_ID";
+    public final static String IS_STEP = "IS_STEP";
+    boolean mIsStep = true;
 
     ArrayList<Steps> mSteps;
     int currentStepID;
@@ -37,24 +40,34 @@ public class StepDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_step_detail);
 
-        mSteps = this.getIntent().getParcelableArrayListExtra(GET_STEP_ARRAYLIST);
-        currentStepID = this.getIntent().getIntExtra(GET_STEP_ID, -1);
-        mCurrentRecipe = this.getIntent().getStringExtra(RECIPE_NAME);
-        getSupportActionBar().setTitle(mCurrentRecipe);
+        mIsStep = this.getIntent().getBooleanExtra(IS_STEP, mIsStep);
+
+        if(mIsStep) {
+            mSteps = this.getIntent().getParcelableArrayListExtra(GET_STEP_ARRAYLIST);
+            currentStepID = this.getIntent().getIntExtra(GET_STEP_ID, -1);
+            mCurrentRecipe = this.getIntent().getStringExtra(RECIPE_NAME);
+        }
+        else{
+            Log.e(TAG, "We are doing the ingredients with the step onCreate");        }
+        //getSupportActionBar().setTitle(mCurrentRecipe);
+
+
 
         if(savedInstanceState == null){
             Bundle args = new Bundle();
             //args.putParcelableArrayList(StepListActivity.INGREDIENT_DATA, ingredients);
-            args.putParcelableArrayList(StepListActivity.STEP_DATA, mSteps);
-            args.putInt(StepDetailFragment.GET_STEP_ID, currentStepID);
-            StepDetailFragment fragment = new StepDetailFragment();
-            fragment.setArguments(args);
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.mp_step_detail_container, fragment)
-                    .commit();
-            //stepIntent.putExtra(StepListActivity.RECIPE_NAME, mRecipes.get(position).getName());
-            //stepIntent.putExtras(args);
-            //mContext.startActivity(stepIntent);
+            if(mIsStep) {
+                args.putParcelableArrayList(StepListActivity.STEP_DATA, mSteps);
+                args.putInt(StepDetailFragment.GET_STEP_ID, currentStepID);
+                StepDetailFragment fragment = new StepDetailFragment();
+                fragment.setArguments(args);
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.mp_step_detail_container, fragment)
+                        .commit();
+            }else {
+                Log.e(TAG, "We are doing the ingredients with the step Saved instance");
+
+            }
         }
 
         ButterKnife.bind(this);

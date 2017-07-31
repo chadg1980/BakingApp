@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
@@ -116,26 +117,62 @@ public class StepDetailFragment extends Fragment {
                 mContext, "Baking App"), (TransferListener<? super DataSource>) mBandwidthMeter);
         Timeline.Window window = new Timeline.Window();
 
+        checkNextStep(mCurentStep);
+
         return mRootView;
     }
 
-    //For the nex previous button, make sure there is a next step or previous step
-    public void checkStep() {
+    //Next/Previos button
+    public void checkNextStep(final int currentStep) {
 
-        if (mCurentStep <= 0) {
+        //Previous Button, if current step is 0, we disable the button
+        if (currentStep <= 0) {
             mButtonPreviousStep.setClickable(false);
             mButtonPreviousStep.setBackgroundColor(ContextCompat.getColor(mContext, R.color.app_black));
         } else {
             mButtonPreviousStep.setClickable(true);
             mButtonPreviousStep.setBackgroundColor(ContextCompat.getColor(mContext, R.color.backgroundGray));
+            mButtonPreviousStep.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Bundle args = new Bundle();
+                    //args.putParcelableArrayList(StepListActivity.INGREDIENT_DATA, ingredients);
+                    args.putParcelableArrayList(StepListActivity.STEP_DATA, mSteps);
+                    args.putInt(StepDetailFragment.GET_STEP_ID, currentStep-1);
+                    StepDetailFragment fragment = new StepDetailFragment();
+                    fragment.setArguments(args);
+                    FragmentTransaction transaction =  getFragmentManager().beginTransaction();
+                    transaction
+                            .replace(R.id.mp_step_detail_container, fragment)
+                            .commit();
+                }
+            });
         }
 
-        if (mCurentStep >= mLastStep) {
+        //Next Button, if the next step +1 is greater than the arraylist size (mLastStep)
+        // The button is disabled
+        if (currentStep+1 >= mLastStep) {
             mButtonNextStep.setClickable(false);
             mButtonNextStep.setBackgroundColor(ContextCompat.getColor(mContext, R.color.app_black));
         } else {
             mButtonNextStep.setClickable(true);
             mButtonNextStep.setBackgroundColor(ContextCompat.getColor(mContext, R.color.backgroundGray));
+
+            mButtonNextStep.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Bundle args = new Bundle();
+                    //args.putParcelableArrayList(StepListActivity.INGREDIENT_DATA, ingredients);
+                    args.putParcelableArrayList(StepListActivity.STEP_DATA, mSteps);
+                    args.putInt(StepDetailFragment.GET_STEP_ID, currentStep+1);
+                    StepDetailFragment fragment = new StepDetailFragment();
+                    fragment.setArguments(args);
+                    FragmentTransaction transaction =  getFragmentManager().beginTransaction();
+                    transaction
+                            .replace(R.id.mp_step_detail_container, fragment)
+                            .commit();
+                }
+            });
         }
 
     }
@@ -170,9 +207,7 @@ public class StepDetailFragment extends Fragment {
                     null,
                     null);
             mPlayer.prepare(mediaSource);
-
             mPlayer.prepare(mediaSource, true, false);
-
         }
         else {
             mVideoPlayerView.setVisibility(View.GONE);
@@ -180,7 +215,6 @@ public class StepDetailFragment extends Fragment {
 
             releasePlayer();
         }
-
     }
 
 

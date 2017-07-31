@@ -69,12 +69,17 @@ public class StepListActivity extends AppCompatActivity {
         mIngredientLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent ingredientIntent = new Intent(mContext, IngredientsActivity.class);
-                Bundle args = new Bundle();
-                args.putParcelableArrayList(IngredientsActivity.GET_INGREDIENTS_ARRAYLIST, mIngredients);
-                args.putString(RECIPE_NAME, mCurrentRecipe);
-                ingredientIntent.putExtras(args);
-                mContext.startActivity(ingredientIntent);
+                if (mTwoPane) {
+
+                } else {
+                    Intent ingredientIntent = new Intent(mContext, StepDetailActivity.class);
+                    Bundle args = new Bundle();
+                    args.putParcelableArrayList(IngredientsActivity.GET_INGREDIENTS_ARRAYLIST, mIngredients);
+                    args.putString(RECIPE_NAME, mCurrentRecipe);
+                    ingredientIntent.putExtra(StepDetailActivity.IS_STEP, false);
+                    ingredientIntent.putExtras(args);
+                    mContext.startActivity(ingredientIntent);
+                }
             }
         });
     }

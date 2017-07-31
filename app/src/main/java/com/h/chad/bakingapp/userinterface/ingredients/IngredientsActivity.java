@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -39,8 +40,9 @@ public class IngredientsActivity extends AppCompatActivity{
         setContentView(R.layout.activity_ingredient);
         ButterKnife.bind(this);
         mIngredients = this.getIntent().getParcelableArrayListExtra(GET_INGREDIENTS_ARRAYLIST);
+        Log.e(TAG, "HELLO WORLD!");
 
-        loadIngredients();
+        //loadIngredients();
 
     }
 

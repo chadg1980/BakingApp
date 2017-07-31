@@ -19,7 +19,6 @@
         android:paddingBottom="3dp">
 
         <TextView
-
             android:id="@+id/tv_ingredients_in_steps"
             style="@style/cardItemStyle"
             android:layout_width="wrap_content"

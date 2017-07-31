@@ -70,6 +70,7 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepAdapterVie
                     args.putParcelableArrayList(StepDetailFragment.GET_STEP_ARRAYLIST, mSteps);
                     stepDetailIntent.putExtras(args);
                     stepDetailIntent.putExtra(StepDetailFragment.GET_STEP_ID, stepID);
+                    stepDetailIntent.putExtra(StepDetailActivity.IS_STEP, true);
                     context.startActivity(stepDetailIntent);
                 }
             }
