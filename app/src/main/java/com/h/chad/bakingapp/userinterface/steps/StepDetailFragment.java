@@ -174,7 +174,6 @@ public class StepDetailFragment extends Fragment {
                 }
             });
         }
-
     }
 
     //Setting up the Exoplayer.
@@ -191,15 +190,10 @@ public class StepDetailFragment extends Fragment {
         mPlayer.setPlayWhenReady(mShouldAutoPlay);
 
         DefaultExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
-
-
         String stepVideoUrlString = new String();
-
-         stepVideoUrlString = mSteps.get(mCurentStep).getVideoURL();
-
+        stepVideoUrlString = mSteps.get(mCurentStep).getVideoURL();
 
         if(!TextUtils.isEmpty(stepVideoUrlString)) {
-
             MediaSource mediaSource = new ExtractorMediaSource(
                     Uri.parse(stepVideoUrlString),
                     mMediaDataSourceFactory,
@@ -216,7 +210,6 @@ public class StepDetailFragment extends Fragment {
             releasePlayer();
         }
     }
-
 
     private void releasePlayer(){
         if(mPlayer != null){
@@ -244,8 +237,6 @@ public class StepDetailFragment extends Fragment {
         }
     }
 
-
-
     @Override
     public void onPause() {
         super.onPause();
@@ -261,6 +252,7 @@ public class StepDetailFragment extends Fragment {
             releasePlayer();
         }
     }
+
     private void hideSystemUi() {
         mVideoPlayerView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
                 | View.SYSTEM_UI_FLAG_FULLSCREEN

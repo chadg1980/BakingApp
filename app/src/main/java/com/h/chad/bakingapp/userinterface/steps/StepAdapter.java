@@ -14,11 +14,14 @@ import android.widget.TextView;
 import com.h.chad.bakingapp.R;
 import com.h.chad.bakingapp.model.Ingredients;
 import com.h.chad.bakingapp.model.Steps;
+import com.h.chad.bakingapp.userinterface.ingredients.IngredientsFragment;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.h.chad.bakingapp.userinterface.ingredients.IngredientsFragment.GET_INGREDIENTS_ARRAYLIST;
 
 /**
  * Created by chad on 7/10/2017.
@@ -53,7 +56,7 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepAdapterVie
     @Override
     public void onBindViewHolder(StepAdapterViewHolder holder, final int position) {
         holder.bind(position);
-        //When a step gets clicked on, it opens up the step details
+        //When a step gets clicked on, it opens up StepDetailActivity.class
         
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,6 +71,7 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepAdapterVie
                     Intent stepDetailIntent = new Intent(context, StepDetailActivity.class);
                     Bundle args = new Bundle();
                     args.putParcelableArrayList(StepDetailFragment.GET_STEP_ARRAYLIST, mSteps);
+                    args.putParcelableArrayList(IngredientsFragment.GET_INGREDIENTS_ARRAYLIST, mIngredients);
                     stepDetailIntent.putExtras(args);
                     stepDetailIntent.putExtra(StepDetailFragment.GET_STEP_ID, stepID);
                     stepDetailIntent.putExtra(StepDetailActivity.IS_STEP, true);

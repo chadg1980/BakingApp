@@ -18,7 +18,7 @@ import android.widget.TextView;
 import com.h.chad.bakingapp.R;
 import com.h.chad.bakingapp.model.Ingredients;
 import com.h.chad.bakingapp.model.Steps;
-import com.h.chad.bakingapp.userinterface.ingredients.IngredientsActivity;
+import com.h.chad.bakingapp.userinterface.ingredients.IngredientsFragment;
 
 import org.w3c.dom.Text;
 
@@ -51,12 +51,16 @@ public class StepListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_step_list);
         ButterKnife.bind(this);
-        mCurrentRecipe = this.getIntent().getStringExtra(RECIPE_NAME);
-        getSupportActionBar().setTitle(mCurrentRecipe);
+
+
 
         //Get the data passed from the recipe
+        mCurrentRecipe = this.getIntent().getStringExtra(RECIPE_NAME);
         mIngredients = this.getIntent().getExtras().getParcelableArrayList(INGREDIENT_DATA);
         mSteps = this.getIntent().getExtras().getParcelableArrayList(STEP_DATA);
+        //set the title as the current recipe name
+        getSupportActionBar().setTitle(mCurrentRecipe);
+
         mContext = this;
         if(findViewById(R.id.mp_step_detail_container) != null){
             mTwoPane = true;
@@ -74,7 +78,7 @@ public class StepListActivity extends AppCompatActivity {
                 } else {
                     Intent ingredientIntent = new Intent(mContext, StepDetailActivity.class);
                     Bundle args = new Bundle();
-                    args.putParcelableArrayList(IngredientsActivity.GET_INGREDIENTS_ARRAYLIST, mIngredients);
+                    args.putParcelableArrayList(IngredientsFragment.GET_INGREDIENTS_ARRAYLIST, mIngredients);
                     args.putString(RECIPE_NAME, mCurrentRecipe);
                     ingredientIntent.putExtra(StepDetailActivity.IS_STEP, false);
                     ingredientIntent.putExtras(args);
@@ -89,7 +93,6 @@ public class StepListActivity extends AppCompatActivity {
         StepAdapter stepAdapter = new StepAdapter(mContext, mIngredients, mSteps, mTwoPane);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         recyclerView.setAdapter(stepAdapter);
-
     }
 
 
