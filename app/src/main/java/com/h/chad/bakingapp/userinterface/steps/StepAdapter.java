@@ -3,6 +3,9 @@ package com.h.chad.bakingapp.userinterface.steps;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
@@ -16,11 +19,14 @@ import com.h.chad.bakingapp.model.Ingredients;
 import com.h.chad.bakingapp.model.Steps;
 import com.h.chad.bakingapp.userinterface.ingredients.IngredientsFragment;
 
+import android.support.v4.app.FragmentActivity;
+
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.h.chad.bakingapp.R.id.mp_step_detail_container;
 import static com.h.chad.bakingapp.userinterface.ingredients.IngredientsFragment.GET_INGREDIENTS_ARRAYLIST;
 import static com.h.chad.bakingapp.userinterface.steps.StepListActivity.RECIPE_NAME;
 
@@ -65,8 +71,18 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepAdapterVie
             @Override
             public void onClick(View v) {
                 if (mTwoPane) {
+                    Bundle args = new Bundle();
+                    int currentStepID = mSteps.get(position).getId();
+                    FragmentTransaction transaction = ((FragmentActivity)mContext).getSupportFragmentManager().beginTransaction();
+                    args.putParcelableArrayList(StepListActivity.STEP_DATA, mSteps);
+                    args.putBoolean(StepDetailFragment.IS_TWO_PANE, mTwoPane);
+                    args.putInt(StepDetailFragment.GET_STEP_ID, currentStepID);
+                    StepDetailFragment fragment = new StepDetailFragment();
+                    fragment.setArguments(args);
+                    transaction.replace(mp_step_detail_container, fragment);
+                    transaction.commit();
 
-                    Log.e(TAG, "Two Pane!");
+
 
                 } else {
                     Context context = v.getContext();

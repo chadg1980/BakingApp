@@ -6,12 +6,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/polkadot_background"
-    android:orientation="vertical"
+    android:divider="?dividerHorizontal"
+    android:orientation="horizontal"
+    android:showDividers="middle"
     tools:context="com.h.chad.bakingapp.userinterface.steps.StepListActivity">
     <!--
     This layout is for the two-pane layout for the steps
     master/detail flow
     -->
+
+<LinearLayout
+    android:paddingTop="8dp"
+    android:layout_width="0dp"
+    android:layout_weight="1"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
 
 
       <TextView
@@ -53,12 +62,13 @@
         android:paddingBottom="3dp"
 
         />
+</LinearLayout>
 
     <FrameLayout
         android:id="@+id/mp_step_detail_container"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="3">
+        android:layout_weight="2">
 
     </FrameLayout>
 

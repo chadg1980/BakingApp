@@ -45,6 +45,7 @@
     </TextView>
 
     <LinearLayout
+        android:id="@+id/ll_prev_next_button_holder"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"

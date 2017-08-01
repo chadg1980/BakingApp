@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.exoplayer2.ExoPlayerFactory;
@@ -68,8 +69,8 @@ public class StepDetailFragment extends Fragment {
 
     //Exoplayer
     @BindView(R.id.mp_step_detail) SimpleExoPlayerView mVideoPlayerView;
-    @BindView(R.id.iv_no_media)
-    ImageView mNoMedia;
+    @BindView(R.id.iv_no_media)  ImageView mNoMedia;
+    @BindView(R.id.ll_prev_next_button_holder) LinearLayout mPrevNextButtonLayout;
 
     private DataSource.Factory mMediaDataSourceFactory;
     private SimpleExoPlayer mPlayer;
@@ -119,7 +120,16 @@ public class StepDetailFragment extends Fragment {
                 mContext, "Baking App"), (TransferListener<? super DataSource>) mBandwidthMeter);
 
 
-        checkNextStep(mCurentStep);
+        if(!mTwoPane){
+            checkNextStep(mCurentStep);
+        }
+        else {
+            mButtonPreviousStep.setClickable(false);
+            mButtonNextStep.setClickable(false);
+            mPrevNextButtonLayout.setVisibility(View.GONE);
+
+        }
+
 
         return mRootView;
     }

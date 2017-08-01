@@ -87,7 +87,6 @@ public class RecipeActivity extends AppCompatActivity {
      * Takes string input of what error to display to user
      */
     private void showError(String errorMessage) {
-
         mRecyclerView.setVisibility(View.GONE);
         mErrorMessage.setText(errorMessage);
         mErrorMessage.setVisibility(View.VISIBLE);
