@@ -25,6 +25,7 @@
             android:layout_height="wrap_content"
             android:contentDescription="@string/no_media_picture"
             android:padding="1dp"
+            android:layout_gravity="center"
             android:src="@drawable/cupcake"
             android:visibility="gone" />
     </FrameLayout>

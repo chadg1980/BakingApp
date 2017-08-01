@@ -64,7 +64,6 @@ public class IngredientsAdapter extends RecyclerView.Adapter
         }
 
         public void bind(int position) {
-            Log.e(TAG, "float " + mIngredients.get(position).getQuantity());
             Float quantityFloat = mIngredients.get(position).getQuantity();
             String quantityString;
             if(quantityFloat != null){

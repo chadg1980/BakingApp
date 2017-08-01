@@ -16,6 +16,7 @@
         android:padding="16dp"
         android:text="@string/error_message"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:background="@android:color/white"
         android:visibility="gone"/>
 
     <ProgressBar

@@ -1,5 +1,8 @@
 package com.h.chad.bakingapp.userinterface.recipe;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,6 +27,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * RecipeActivity is the MainActivity of the Baking App.
+ * ReipeActivity received data via service callback (see loadRecipe())
+ * If there is network activity to receive the data
+ *      RecipeActivty sends the data to RecipeAdapter in RecyclerView
+ * */
 public class RecipeActivity extends AppCompatActivity {
 
     private final static String TAG = RecipeActivity.class.getName();
@@ -37,16 +46,46 @@ public class RecipeActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager mLayoutManager;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe);
         ButterKnife.bind(this);
-        mService = ApiUtils.getSOService();
-        mRecipe = new ArrayList<>();
-        mIsTablet = getResources().getBoolean(R.bool.is_tablet);
 
-        //Loads the recipes using Retrofit2
-        loadRecipe();
+        //Check for internet
+        checkConnection();
+    }
+
+    //checks if there is an internet connection
+    //Returns a boolean if there is
+    private void checkConnection() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+
+        //If we have a connection, then we load the recipes
+        if(activeNetwork != null && activeNetwork.isConnectedOrConnecting()) {
+            hideError();
+            mService = ApiUtils.getSOService();
+            mRecipe = new ArrayList<>();
+            mIsTablet = getResources().getBoolean(R.bool.is_tablet);
+
+            //Loads the recipes using Retrofit2
+            loadRecipe();
+        }
+        //If we do not have a connection, show an error
+        else{
+            String networkError = getString(R.string.network_error);
+            showError(networkError);
+            //Adding a retry button to try to load the recipes
+            // once the user gains network connection
+            mErrorMessage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    checkConnection();
+                }
+            });
+
+        }
     }
 
     /**
@@ -87,9 +126,13 @@ public class RecipeActivity extends AppCompatActivity {
      * Takes string input of what error to display to user
      */
     private void showError(String errorMessage) {
-        mRecyclerView.setVisibility(View.GONE);
+        //mRecyclerView.setVisibility(View.GONE);
         mErrorMessage.setText(errorMessage);
         mErrorMessage.setVisibility(View.VISIBLE);
+    }
+    private void hideError() {
+        mErrorMessage.setVisibility(View.GONE);
+        mRecyclerView.setVisibility(View.VISIBLE);
     }
 
     /**

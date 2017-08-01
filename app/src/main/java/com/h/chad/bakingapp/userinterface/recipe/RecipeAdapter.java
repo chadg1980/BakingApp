@@ -25,7 +25,13 @@ import butterknife.ButterKnife;
 
 /**
  * Created by chad on 7/8/2017.
- */
+ *
+ * RecipeAdapter sets up the Recyclerview for the Recipes
+ * Recipe Adapter receives data from RecipeActivity
+ *
+ * RecipeAdapter sends data to StepListActivity via an Intent
+ * **/
+
 
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeAdapterViewHolder>{
 

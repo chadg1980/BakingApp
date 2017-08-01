@@ -153,8 +153,7 @@ public class StepDetailFragment extends Fragment {
                     args.putInt(StepDetailFragment.GET_STEP_ID, currentStep-1);
                     StepDetailFragment fragment = new StepDetailFragment();
                     fragment.setArguments(args);
-                    FragmentTransaction transaction =  getFragmentManager().beginTransaction();
-                    transaction
+                    getFragmentManager().beginTransaction()
                             .replace(R.id.mp_step_detail_container, fragment)
                             .commit();
                 }

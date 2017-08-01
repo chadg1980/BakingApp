@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -29,6 +32,9 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static android.R.attr.fragment;
+import static com.h.chad.bakingapp.R.id.mp_step_detail_container;
 
 public class StepListActivity extends AppCompatActivity {
 
@@ -64,8 +70,18 @@ public class StepListActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mContext = this;
-        if(findViewById(R.id.mp_step_detail_container) != null){
+        if(findViewById(mp_step_detail_container) != null){
             mTwoPane = true;
+            if (mTwoPane) {
+                Bundle args = new Bundle();
+                args.putParcelableArrayList(IngredientsFragment.GET_INGREDIENTS_ARRAYLIST, mIngredients);
+                IngredientsFragment fragment = new IngredientsFragment();
+                fragment.setArguments(args);
+                getSupportFragmentManager().beginTransaction()
+                        .add(mp_step_detail_container, fragment)
+                        .commit();
+
+            }
         }
 
         View recyclerView = findViewById(R.id.step_list);
@@ -75,11 +91,17 @@ public class StepListActivity extends AppCompatActivity {
         mIngredientLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Bundle args = new Bundle();
                 if (mTwoPane) {
+                    args.putParcelableArrayList(IngredientsFragment.GET_INGREDIENTS_ARRAYLIST, mIngredients);
+                    IngredientsFragment fragment = new IngredientsFragment();
+                    fragment.setArguments(args);
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(mp_step_detail_container, fragment)
+                            .commit();
 
                 } else {
                     Intent ingredientIntent = new Intent(mContext, StepDetailActivity.class);
-                    Bundle args = new Bundle();
                     args.putParcelableArrayList(IngredientsFragment.GET_INGREDIENTS_ARRAYLIST, mIngredients);
                     args.putString(RECIPE_NAME, mCurrentRecipe);
                     ingredientIntent.putExtra(StepDetailActivity.IS_STEP, false);

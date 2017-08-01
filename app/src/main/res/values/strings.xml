@@ -4,7 +4,7 @@
     <string name="ingredient_string">Recipe Ingredients</string>
 
     <!-- RecipeActivity Error Messages -->
-    <string name="network_error">No Network</string>
+    <string name="network_error">No Network \n Click to retry</string>
     <string name="response_error">No Recipes</string>
 
     <!-- steps error -->
