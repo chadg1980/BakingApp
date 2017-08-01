@@ -66,7 +66,6 @@ public class IngredientsFragment extends Fragment {
 
         loadIngredients();
         return mRootView;
-
     }
 
     private void showErrorMessage(String error){
@@ -76,7 +75,6 @@ public class IngredientsFragment extends Fragment {
     }
 
     private void loadIngredients() {
-
         mIngredientsAdapter = new IngredientsAdapter(mContext, mIngredients);
         mLayoutManager = new LinearLayoutManager(mContext);
         mRecyclerView.setLayoutManager(mLayoutManager);

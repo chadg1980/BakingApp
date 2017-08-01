@@ -3,13 +3,16 @@ package com.h.chad.bakingapp.userinterface.steps;
 import android.content.Context;
 import android.os.Bundle;
 
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
+
 import com.h.chad.bakingapp.R;
 import com.h.chad.bakingapp.model.Ingredients;
+import com.h.chad.bakingapp.model.Recipe;
 import com.h.chad.bakingapp.model.Steps;
 import com.h.chad.bakingapp.userinterface.ingredients.IngredientsFragment;
 
@@ -17,7 +20,6 @@ import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 
-import static android.R.attr.fragment;
 import static com.h.chad.bakingapp.R.id.mp_step_detail_container;
 import static com.h.chad.bakingapp.userinterface.steps.StepListActivity.RECIPE_NAME;
 
@@ -35,14 +37,13 @@ public class StepDetailActivity extends AppCompatActivity {
     public final static String IS_STEP = "IS_STEP";
     boolean mIsStep = true;
 
-    private ArrayList<Steps> mSteps;
-
     private int currentStepID;
     public Context mContext;
     public String mCurrentRecipe;
+    //For Steps
+    private ArrayList<Steps> mSteps;
 
     //data for ingredient
-
     private ArrayList<Ingredients> mIngredients;
 
     @Override
@@ -51,18 +52,17 @@ public class StepDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_step_detail);
 
         mIsStep = this.getIntent().getBooleanExtra(IS_STEP, mIsStep);
-        mCurrentRecipe = this.getIntent().getStringExtra(RECIPE_NAME);
-        getSupportActionBar().setTitle(mCurrentRecipe);
+
         currentStepID = this.getIntent().getIntExtra(GET_STEP_ID, -1);
+        mCurrentRecipe = this.getIntent().getStringExtra(StepListActivity.RECIPE_NAME);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(mCurrentRecipe);
 
         if (mIsStep) {
             mSteps = this.getIntent().getParcelableArrayListExtra(GET_STEP_ARRAYLIST);
-
         } else {
             mIngredients = this.getIntent().getParcelableArrayListExtra(IngredientsFragment.GET_INGREDIENTS_ARRAYLIST);
-
         }
-
 
         if (savedInstanceState == null) {
             Bundle args = new Bundle();
@@ -85,7 +85,6 @@ public class StepDetailActivity extends AppCompatActivity {
                         .commit();
             }
         }
-
         ButterKnife.bind(this);
         mContext = this;
 
@@ -93,16 +92,15 @@ public class StepDetailActivity extends AppCompatActivity {
             Log.e(TAG, "Step ID did not come through ID:" + currentStepID);
         }
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                super.onBackPressed();
+                break;
+        }
+        return true;
+    }
 }
 
-/**
- * @Override public boolean onOptionsItemSelected (MenuItem item){
- * switch (item.getItemId()) {
- * //Respond to the action bar's Up/Home button
- * case android.R.id.home:
- * NavUtils.navigateUpFromSameTask(this);
- * return true;
- * }
- * return super.onOptionsItemSelected(item);
- * }
- ***/

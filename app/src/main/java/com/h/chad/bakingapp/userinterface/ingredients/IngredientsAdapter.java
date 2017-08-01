@@ -31,7 +31,6 @@ public class IngredientsAdapter extends RecyclerView.Adapter
     public IngredientsAdapter(Context context, ArrayList<Ingredients> ingredients){
         this.mContext = context;
         this.mIngredients = ingredients;
-
     }
 
     @Override
@@ -46,7 +45,6 @@ public class IngredientsAdapter extends RecyclerView.Adapter
 
     @Override
     public void onBindViewHolder(IngredientsAdapterViewHolder holder, int position) {
-
         holder.bind(position);
     }
 
@@ -55,12 +53,10 @@ public class IngredientsAdapter extends RecyclerView.Adapter
         return mIngredients.size();
     }
 
-
     public class IngredientsAdapterViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tv_quantity) TextView quantityText;
         @BindView(R.id.tv_measure) TextView measureText;
         @BindView(R.id.tv_ingredient_item) TextView ingredientItemText;
-
 
         public IngredientsAdapterViewHolder(View itemView) {
             super(itemView);

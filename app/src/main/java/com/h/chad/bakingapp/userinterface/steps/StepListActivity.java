@@ -4,12 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
@@ -52,14 +54,14 @@ public class StepListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_step_list);
         ButterKnife.bind(this);
 
-
-
         //Get the data passed from the recipe
         mCurrentRecipe = this.getIntent().getStringExtra(RECIPE_NAME);
         mIngredients = this.getIntent().getExtras().getParcelableArrayList(INGREDIENT_DATA);
         mSteps = this.getIntent().getExtras().getParcelableArrayList(STEP_DATA);
+
         //set the title as the current recipe name
         getSupportActionBar().setTitle(mCurrentRecipe);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mContext = this;
         if(findViewById(R.id.mp_step_detail_container) != null){
@@ -90,14 +92,18 @@ public class StepListActivity extends AppCompatActivity {
 
     private void setUpRecyclerView(RecyclerView recyclerView) {
         recyclerView.setHasFixedSize(true);
-        StepAdapter stepAdapter = new StepAdapter(mContext, mIngredients, mSteps, mTwoPane);
+        StepAdapter stepAdapter = new StepAdapter(mContext, mIngredients, mSteps, mTwoPane, mCurrentRecipe);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         recyclerView.setAdapter(stepAdapter);
     }
 
-
-
-
-
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                super.onBackPressed();
+                break;
+        }
+        return true;
+    }
 }

@@ -22,6 +22,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.h.chad.bakingapp.userinterface.ingredients.IngredientsFragment.GET_INGREDIENTS_ARRAYLIST;
+import static com.h.chad.bakingapp.userinterface.steps.StepListActivity.RECIPE_NAME;
 
 /**
  * Created by chad on 7/10/2017.
@@ -33,13 +34,15 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepAdapterVie
     private ArrayList<Ingredients> mIngredients;
     private ArrayList<Steps> mSteps;
     private boolean mTwoPane;
+    private String mCurrentRecipe;
 
     public StepAdapter(Context context, ArrayList<Ingredients> ingredients, ArrayList<Steps> steps
-            , boolean twoPane){
+            , boolean twoPane, String currentRecipe){
         this.mContext = context;
         this.mIngredients = ingredients;
         this.mSteps = steps;
         this.mTwoPane = twoPane;
+        this.mCurrentRecipe = currentRecipe;
     }
 
     @Override
@@ -72,6 +75,7 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepAdapterVie
                     Bundle args = new Bundle();
                     args.putParcelableArrayList(StepDetailFragment.GET_STEP_ARRAYLIST, mSteps);
                     args.putParcelableArrayList(IngredientsFragment.GET_INGREDIENTS_ARRAYLIST, mIngredients);
+                    args.putString(StepListActivity.RECIPE_NAME, mCurrentRecipe);
                     stepDetailIntent.putExtras(args);
                     stepDetailIntent.putExtra(StepDetailFragment.GET_STEP_ID, stepID);
                     stepDetailIntent.putExtra(StepDetailActivity.IS_STEP, true);

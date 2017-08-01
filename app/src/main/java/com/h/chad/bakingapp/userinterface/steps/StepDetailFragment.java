@@ -1,6 +1,7 @@
 package com.h.chad.bakingapp.userinterface.steps;
 
 import android.content.Context;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -11,15 +12,13 @@ import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.VideoView;
 
-import com.google.android.exoplayer2.DefaultLoadControl;
-import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.Timeline;
@@ -34,7 +33,6 @@ import com.google.android.exoplayer2.upstream.BandwidthMeter;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
-import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.upstream.TransferListener;
 import com.google.android.exoplayer2.util.Util;
 import com.h.chad.bakingapp.R;
@@ -44,8 +42,6 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 
 /**
  * Created by chad on 7/10/2017.
@@ -68,6 +64,9 @@ public class StepDetailFragment extends Fragment {
 
     //Exoplayer
     @BindView(R.id.mp_step_detail) SimpleExoPlayerView mVideoPlayerView;
+    @BindView(R.id.iv_no_media)
+    ImageView mNoMedia;
+
     private DataSource.Factory mMediaDataSourceFactory;
     private SimpleExoPlayer mPlayer;
     private DefaultTrackSelector mTrackSelector;
@@ -75,7 +74,7 @@ public class StepDetailFragment extends Fragment {
     private BandwidthMeter mBandwidthMeter;
 
     //If No Video for Exoplayer
-    @BindView(R.id.layout_no_media) RelativeLayout mNoMedia;
+
 
     private int mCurentStep;
     private int mLastStep;
@@ -99,6 +98,7 @@ public class StepDetailFragment extends Fragment {
 
         Bundle args = getArguments();
         mCurentStep = args.getInt(GET_STEP_ID);
+
         mSteps =  args.getParcelableArrayList(StepListActivity.STEP_DATA);
         assert mSteps != null;
         mLastStep = mSteps.size();
@@ -106,7 +106,7 @@ public class StepDetailFragment extends Fragment {
         if(!TextUtils.isEmpty(instructions)) {
             mInstructions.setText(instructions);
         }else{
-            mInstructions.setText("No instructions this step");
+            mInstructions.setText(getActivity().getString(R.string.no_description));
         }
         mContext = getActivity();
 
@@ -202,11 +202,12 @@ public class StepDetailFragment extends Fragment {
                     null);
             mPlayer.prepare(mediaSource);
             mPlayer.prepare(mediaSource, true, false);
+            mVideoPlayerView.setVisibility(View.VISIBLE);
+            mNoMedia.setVisibility(View.GONE);
         }
         else {
             mVideoPlayerView.setVisibility(View.GONE);
             mNoMedia.setVisibility(View.VISIBLE);
-
             releasePlayer();
         }
     }
@@ -231,7 +232,7 @@ public class StepDetailFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        hideSystemUi();
+        //hideSystemUi();
         if((Util.SDK_INT <=23 || mPlayer == null)){
             setupVideoPlayer();
         }
@@ -248,7 +249,7 @@ public class StepDetailFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        if(Util.SDK_INT > 23){
+        if(Util.SDK_INT >= 24){
             releasePlayer();
         }
     }
@@ -261,4 +262,6 @@ public class StepDetailFragment extends Fragment {
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
     }
+
+
 }
