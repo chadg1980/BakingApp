@@ -39,9 +39,5 @@
         <item name="android:elevation">2dp</item>
 
     </style>
-    <style name="bakingLand" parent="AppTheme.NoActionBar">
-
-
-    </style>
 
 </resources>

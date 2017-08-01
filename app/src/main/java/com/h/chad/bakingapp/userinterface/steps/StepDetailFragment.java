@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -116,11 +117,7 @@ public class StepDetailFragment extends Fragment {
         mBandwidthMeter = new DefaultBandwidthMeter();
         mMediaDataSourceFactory = new DefaultDataSourceFactory(mContext, Util.getUserAgent(
                 mContext, "Baking App"), (TransferListener<? super DataSource>) mBandwidthMeter);
-        if(2 == getResources().getConfiguration().orientation && mTwoPane){
-            
 
-        }
-        Timeline.Window window = new Timeline.Window();
 
         checkNextStep(mCurentStep);
 
