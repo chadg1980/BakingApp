@@ -1,6 +1,7 @@
 package com.h.chad.bakingapp.userinterface.steps;
 
 import android.content.Context;
+import android.graphics.drawable.GradientDrawable;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
@@ -54,6 +55,7 @@ public class StepDetailFragment extends Fragment {
     /* Constant for getting the step details*/
     public final static String GET_STEP_ARRAYLIST = "GET_STEP_ARRAYLIST";
     public final static String GET_STEP_ID = "GET_STEP_ID";
+    public final static String IS_TWO_PANE = "TWO_PANE";
 
     @BindView(R.id.tv_step_detail_instructions) TextView mInstructions;
     @BindView(R.id.tv_previous_step) TextView mButtonPreviousStep;
@@ -61,6 +63,7 @@ public class StepDetailFragment extends Fragment {
 
     ArrayList<Steps> mSteps;
     public Context mContext;
+    private Boolean mTwoPane;
 
     //Exoplayer
     @BindView(R.id.mp_step_detail) SimpleExoPlayerView mVideoPlayerView;
@@ -72,9 +75,6 @@ public class StepDetailFragment extends Fragment {
     private DefaultTrackSelector mTrackSelector;
     private boolean mShouldAutoPlay;
     private BandwidthMeter mBandwidthMeter;
-
-    //If No Video for Exoplayer
-
 
     private int mCurentStep;
     private int mLastStep;
@@ -103,6 +103,7 @@ public class StepDetailFragment extends Fragment {
         assert mSteps != null;
         mLastStep = mSteps.size();
         String instructions = mSteps.get(mCurentStep).getDescription();
+        mTwoPane = args.getBoolean(IS_TWO_PANE);
         if(!TextUtils.isEmpty(instructions)) {
             mInstructions.setText(instructions);
         }else{
@@ -115,6 +116,10 @@ public class StepDetailFragment extends Fragment {
         mBandwidthMeter = new DefaultBandwidthMeter();
         mMediaDataSourceFactory = new DefaultDataSourceFactory(mContext, Util.getUserAgent(
                 mContext, "Baking App"), (TransferListener<? super DataSource>) mBandwidthMeter);
+        if(2 == getResources().getConfiguration().orientation && mTwoPane){
+            
+
+        }
         Timeline.Window window = new Timeline.Window();
 
         checkNextStep(mCurentStep);

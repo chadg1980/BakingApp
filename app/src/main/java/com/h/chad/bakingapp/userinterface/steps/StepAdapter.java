@@ -76,6 +76,7 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepAdapterVie
                     args.putParcelableArrayList(StepDetailFragment.GET_STEP_ARRAYLIST, mSteps);
                     args.putParcelableArrayList(IngredientsFragment.GET_INGREDIENTS_ARRAYLIST, mIngredients);
                     args.putString(StepListActivity.RECIPE_NAME, mCurrentRecipe);
+                    args.putBoolean(StepDetailFragment.IS_TWO_PANE ,mTwoPane);
                     stepDetailIntent.putExtras(args);
                     stepDetailIntent.putExtra(StepDetailFragment.GET_STEP_ID, stepID);
                     stepDetailIntent.putExtra(StepDetailActivity.IS_STEP, true);
