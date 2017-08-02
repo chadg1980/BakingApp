@@ -1,5 +1,8 @@
 package com.h.chad.bakingapp.data;
 
+import android.support.test.espresso.IdlingResource;
+
+import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -20,7 +23,6 @@ public class NetworkClient {
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }
-
         return mRetrofit;
     }
 }

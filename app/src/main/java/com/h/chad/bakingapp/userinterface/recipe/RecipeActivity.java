@@ -4,6 +4,8 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -14,6 +16,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.h.chad.bakingapp.R;
+import com.h.chad.bakingapp.SimpleIdlingResource;
 import com.h.chad.bakingapp.data.ApiUtils;
 import com.h.chad.bakingapp.data.SOService;
 import com.h.chad.bakingapp.model.Recipe;
@@ -26,6 +29,10 @@ import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import android.support.test.espresso.IdlingResource;
+
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.V;
 
 /**
  * RecipeActivity is the MainActivity of the Baking App.
