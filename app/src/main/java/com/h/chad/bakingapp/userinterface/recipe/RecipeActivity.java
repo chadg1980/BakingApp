@@ -1,12 +1,13 @@
 package com.h.chad.bakingapp.userinterface.recipe;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -33,6 +34,10 @@ import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.h.chad.bakingapp.homescreenWidget.RecipeWidgetProvider.RECIPE_PREF;
+import static com.h.chad.bakingapp.homescreenWidget.RecipeWidgetProvider.SELECT_RECIPE_ID;
+import static com.h.chad.bakingapp.homescreenWidget.RecipeWidgetProvider.SELECT_RECIPE_TITLE;
 
 /**
  * RecipeActivity is the MainActivity of the Baking App.
@@ -196,7 +201,14 @@ public class RecipeActivity extends AppCompatActivity {
                 break;
         }
 
+        String recipeTitle = mRecipe.get(recipeListForWidget).getName();
+        SharedPreferences sharedPref = getSharedPreferences(RECIPE_PREF, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(SELECT_RECIPE_TITLE, recipeTitle);
+        editor.putInt(SELECT_RECIPE_ID, recipeListForWidget);
+        editor.apply();
 
         return super.onOptionsItemSelected(item);
     }
 }
+

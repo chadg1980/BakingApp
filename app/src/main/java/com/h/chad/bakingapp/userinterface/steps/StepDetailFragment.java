@@ -1,8 +1,6 @@
 package com.h.chad.bakingapp.userinterface.steps;
 
 import android.content.Context;
-import android.graphics.drawable.GradientDrawable;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -11,20 +9,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
@@ -58,6 +51,7 @@ public class StepDetailFragment extends Fragment {
     public final static String GET_STEP_ARRAYLIST = "GET_STEP_ARRAYLIST";
     public final static String GET_STEP_ID = "GET_STEP_ID";
     public final static String IS_TWO_PANE = "TWO_PANE";
+    public final static String BAKING_APP = "Baking App";
 
     @BindView(R.id.tv_step_detail_instructions) TextView mInstructions;
     @BindView(R.id.tv_previous_step) TextView mButtonPreviousStep;
@@ -89,7 +83,7 @@ public class StepDetailFragment extends Fragment {
     }
 
     private void setArguments(ArrayList<Parcelable> parcelableArrayListExtra) {
-        Log.e(TAG, "FRAGMENT STARTED *****");
+
     }
 
     @Override
@@ -117,7 +111,7 @@ public class StepDetailFragment extends Fragment {
         mShouldAutoPlay = true;
         mBandwidthMeter = new DefaultBandwidthMeter();
         mMediaDataSourceFactory = new DefaultDataSourceFactory(mContext, Util.getUserAgent(
-                mContext, "Baking App"), (TransferListener<? super DataSource>) mBandwidthMeter);
+                mContext, BAKING_APP), (TransferListener<? super DataSource>) mBandwidthMeter);
 
 
         if(!mTwoPane){

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/item_layout"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
     android:orientation="horizontal">
@@ -9,28 +8,33 @@
     <RelativeLayout style="@style/cardLikeStyle">
 
         <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/widget_step_number"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="16dp"
-            android:textSize="20sp"
-            tools:text="1" />
-
-
-        <TextView
-            android:id="@+id/tv_widget_short_description"
+            android:id="@+id/widget_quantity"
             style="@style/cardItemStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/widget_step_number"
-            android:paddingEnd="16dp"
-            android:paddingLeft="16dp"
-            android:paddingStart="16dp"
-            android:textSize="20sp"
-            tools:text="stir the thing" />
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:paddingLeft="10dp"
+            android:textSize="20sp" />
 
+        <TextView
+            android:id="@+id/widget_measure"
+            style="@style/cardItemStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/widget_quantity"
+            android:paddingLeft="5dp"
+            android:paddingStart="5dp"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/widget_ingredient_item"
+            style="@style/cardItemStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/widget_measure"
+            android:paddingStart="20dp"
+            android:textSize="20sp" />
 
     </RelativeLayout>
-
-    </LinearLayout>
+</LinearLayout>

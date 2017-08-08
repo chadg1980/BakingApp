@@ -3,7 +3,7 @@
     android:autoAdvanceViewId="@id/appwidget_list"
     android:initialKeyguardLayout="@layout/widget_layout_recipe"
     android:initialLayout="@layout/widget_layout_recipe"
-    android:minHeight="40dp"
+    android:minHeight="250dp"
     android:minWidth="250dp"
     android:previewImage="@drawable/cupcake"
     android:resizeMode="horizontal|vertical"

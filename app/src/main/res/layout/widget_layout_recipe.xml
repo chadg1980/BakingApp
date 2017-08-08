@@ -1,21 +1,44 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#09C"
+    android:background="@drawable/polkadot_background"
     android:padding="@dimen/widget_margin">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textViewWidgetClickMe"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:visibility="gone"/>
+
+        <TextView
+            style="@style/cardLikeStyle"
+            android:id="@+id/widget_recipe_title"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:textColor="@android:color/white"
+            android:fontFamily="sans-serif"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="2"
+            android:textStyle="bold"
+            android:shadowColor="@android:color/black"
+            />
 
     <ListView
         android:id="@+id/appwidget_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="0dp"
+        android:layout_weight="8" />
 
-    <TextView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/textViewWidgetClickMe"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:textSize="20dp"
-    />
+    </LinearLayout>
 
 </FrameLayout>

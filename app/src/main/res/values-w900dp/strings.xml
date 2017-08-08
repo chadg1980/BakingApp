@@ -9,6 +9,9 @@
 
     <!-- steps error -->
     <string name="no_description">No Description for this step</string>
+    <string name="no_measurement_found">No measurement found</string>
+
+    <string name="no_instructions">No instructions this step</string>
 
     <!-- Strings for Step -->
     <string name="step_paren">") "</string>
@@ -16,16 +19,18 @@
     <string name="previous_step">Previous Step</string>
     <string name="no_media_picture">Picture of cupcake, there is no video to play</string>
 
-    <!-- Check if this is a tablet -->
-    <bool name="is_tablet">true</bool>
-
     <!-- Widget Text -->
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
 
+    <!-- Titles for menu -->
     <string name="nutella_pie">Nutella Pie</string>
     <string name="brownies">Brownies</string>
     <string name="yellow_cake">Yellow Cake</string>
     <string name="cheesecake">CheeseCake</string>
     <string name="recipe_for_homescreen">Recipe for Homescreen</string>
+
+    <!-- Check if this is a tablet -->
+    <bool name="is_tablet">true</bool>
+
 </resources>

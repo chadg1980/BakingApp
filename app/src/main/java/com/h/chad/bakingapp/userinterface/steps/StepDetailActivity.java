@@ -2,17 +2,12 @@ package com.h.chad.bakingapp.userinterface.steps;
 
 import android.content.Context;
 import android.os.Bundle;
-
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.h.chad.bakingapp.R;
 import com.h.chad.bakingapp.model.Ingredients;
-import com.h.chad.bakingapp.model.Recipe;
 import com.h.chad.bakingapp.model.Steps;
 import com.h.chad.bakingapp.userinterface.ingredients.IngredientsFragment;
 
@@ -21,7 +16,6 @@ import java.util.ArrayList;
 import butterknife.ButterKnife;
 
 import static com.h.chad.bakingapp.R.id.mp_step_detail_container;
-import static com.h.chad.bakingapp.userinterface.steps.StepListActivity.RECIPE_NAME;
 
 /**
  * Created by chad on 7/18/2017.

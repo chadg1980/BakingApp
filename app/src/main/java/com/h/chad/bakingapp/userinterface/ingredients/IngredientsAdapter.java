@@ -2,7 +2,6 @@ package com.h.chad.bakingapp.userinterface.ingredients;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +9,6 @@ import android.widget.TextView;
 
 import com.h.chad.bakingapp.R;
 import com.h.chad.bakingapp.model.Ingredients;
-
 
 import java.util.ArrayList;
 
@@ -70,7 +68,7 @@ public class IngredientsAdapter extends RecyclerView.Adapter
                 quantityString = Float.toString(quantityFloat);
                 quantityText.setText(quantityString);
             }else {
-                quantityText.setText("No measurement found");
+                quantityText.setText(mContext.getString(R.string.no_measurement_found));
             }
 
             measureText.setText(mIngredients.get(position).getMeasure());
