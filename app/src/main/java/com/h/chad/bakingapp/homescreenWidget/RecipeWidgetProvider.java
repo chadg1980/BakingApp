@@ -6,11 +6,24 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
 import com.h.chad.bakingapp.R;
+import com.h.chad.bakingapp.data.ApiUtils;
+import com.h.chad.bakingapp.data.SOService;
+import com.h.chad.bakingapp.model.Recipe;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static android.R.attr.data;
 
 /**
  * Implementation of App Widget functionality.
@@ -25,6 +38,7 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
     public static final String TAG = RecipeWidgetProvider.class.getName();
     public static final String TOAST_ACTION = "com.example.android.stackwidget.TOAST_ACTION";
     public static final String EXTRA_ITEM = "com.h.chad.bakingapp.homescreenWidge.EXTRA_ITEM";
+    private ArrayList<Recipe> mRecipe;
 
 
     // Called when the BroadcastReceiver receives an Intent broadcast.
@@ -38,8 +52,6 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
                     AppWidgetManager.INVALID_APPWIDGET_ID);
             int viewIndex = intent.getIntExtra(EXTRA_ITEM, 0);
             Toast.makeText(context, "Touched view " + viewIndex, Toast.LENGTH_SHORT).show();
-
-
         }
         super.onReceive(context, intent);
     }
@@ -49,8 +61,10 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
         super.onDeleted(context, appWidgetIds);
     }
 
-    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
+    void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
+
+
         //Sets up the intent that points to the StackViewService
         // provide the views for this collection
         Intent intent = new Intent(context, ListWidgetService.class);
