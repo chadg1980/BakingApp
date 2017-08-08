@@ -22,4 +22,10 @@
     <!-- Widget Text -->
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
+
+    <string name="nutella_pie">Nutella Pie</string>
+    <string name="brownies">Brownies</string>
+    <string name="yellow_cake">Yellow Cake</string>
+    <string name="cheesecake">CheeseCake</string>
+    <string name="recipe_for_homescreen">Recipe for Homescreen</string>
 </resources>

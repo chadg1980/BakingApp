@@ -3,10 +3,33 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_filter"
-        android:title="hello"
-        android:orderInCategory="10"
+        android:id="@+id/menu_title"
+        android:orderInCategory="0"
+        app:showAsAction="never"
 
-        app:showAsAction="ifRoom" />
+        android:title="@string/recipe_for_homescreen"
+        />
+
+    <item
+        android:id="@+id/menu_nutella_pie"
+        android:orderInCategory="1"
+        android:title="@string/nutella_pie"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_brownies"
+        android:orderInCategory="2"
+        android:title="@string/brownies"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_yellow_cake"
+        android:orderInCategory="3"
+        android:title="@string/yellow_cake"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_cheesecake"
+        android:orderInCategory="4"
+        android:title="@string/cheesecake"
+        app:showAsAction="never" />
+
 
 </menu>

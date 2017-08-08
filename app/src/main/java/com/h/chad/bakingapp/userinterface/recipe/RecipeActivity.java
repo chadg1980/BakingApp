@@ -1,6 +1,7 @@
 package com.h.chad.bakingapp.userinterface.recipe;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
@@ -9,7 +10,13 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
+import android.text.style.BackgroundColorSpan;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -152,5 +159,44 @@ public class RecipeActivity extends AppCompatActivity {
             mRecyclerView.setLayoutManager(mLayoutManager);
             mRecyclerView.setAdapter(mRecipeAdapter);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        MenuItem menuItem = menu.findItem(R.id.menu_title);
+        SpannableString s = new SpannableString(menuItem.getTitle());
+        s.setSpan(new ForegroundColorSpan(Color.WHITE), 0, s.length(), 0);
+        s.setSpan(new BackgroundColorSpan(Color.BLACK), 0, s.length(), 0);
+        menuItem.setTitle(s);
+        return true;
+    }
+
+    //Which recipe to put on our homescreen widget
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //handle item seltect
+        int recipeListForWidget = 0;
+        switch (item.getItemId()){
+            case R.id.menu_nutella_pie:
+                recipeListForWidget = 0;
+                break;
+            case R.id.menu_brownies:
+                recipeListForWidget = 1;
+                break;
+            case R.id.menu_yellow_cake:
+                recipeListForWidget = 2;
+                break;
+            case R.id.menu_cheesecake:
+                recipeListForWidget = 3;
+                break;
+            default:
+                recipeListForWidget = 0;
+                break;
+        }
+
+
+        return super.onOptionsItemSelected(item);
     }
 }
