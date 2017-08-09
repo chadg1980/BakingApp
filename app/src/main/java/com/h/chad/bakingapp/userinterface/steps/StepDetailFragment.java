@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,7 @@ import com.google.android.exoplayer2.upstream.TransferListener;
 import com.google.android.exoplayer2.util.Util;
 import com.h.chad.bakingapp.R;
 import com.h.chad.bakingapp.model.Steps;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -211,9 +213,28 @@ public class StepDetailFragment extends Fragment {
             mNoMedia.setVisibility(View.GONE);
         }
         else {
+            setImage();
             mVideoPlayerView.setVisibility(View.GONE);
             mNoMedia.setVisibility(View.VISIBLE);
             releasePlayer();
+        }
+    }
+
+    private void setImage() {
+
+        if(!TextUtils.isEmpty(mSteps.get(mCurentStep).getThumbnailURL())) {
+            Picasso.with(mContext)
+                    .load(mSteps.get(mCurentStep).getThumbnailURL())
+                    .placeholder(R.drawable.cupcake)
+                    .error(R.drawable.cupcake)
+                    .into(mNoMedia);
+        }
+        else{
+            Picasso.with(mContext)
+                    .load(R.drawable.cupcake)
+                    .placeholder(R.drawable.cupcake)
+                    .error(R.drawable.cupcake)
+                    .into(mNoMedia);
         }
     }
 

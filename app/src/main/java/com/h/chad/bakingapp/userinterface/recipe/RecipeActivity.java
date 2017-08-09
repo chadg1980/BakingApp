@@ -20,6 +20,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.h.chad.bakingapp.R;
 import com.h.chad.bakingapp.data.ApiUtils;
@@ -57,6 +58,7 @@ public class RecipeActivity extends AppCompatActivity {
     private boolean mIsTablet;
     private RecyclerView.LayoutManager mLayoutManager;
 
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,7 +77,7 @@ public class RecipeActivity extends AppCompatActivity {
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
 
         //If we have a connection, then we load the recipes
-        if(activeNetwork != null && activeNetwork.isConnectedOrConnecting()) {
+        if(activeNetwork != null && activeNetwork.isConnectedOrConnecting()){
             hideError();
             mService = ApiUtils.getSOService();
             mRecipe = new ArrayList<>();
@@ -200,13 +202,17 @@ public class RecipeActivity extends AppCompatActivity {
                 recipeListForWidget = 0;
                 break;
         }
-
-        String recipeTitle = mRecipe.get(recipeListForWidget).getName();
-        SharedPreferences sharedPref = getSharedPreferences(RECIPE_PREF, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString(SELECT_RECIPE_TITLE, recipeTitle);
-        editor.putInt(SELECT_RECIPE_ID, recipeListForWidget);
-        editor.apply();
+        if(mRecipe != null && !mRecipe.isEmpty()) {
+            String recipeTitle = mRecipe.get(recipeListForWidget).getName();
+            SharedPreferences sharedPref = getSharedPreferences(RECIPE_PREF, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putString(SELECT_RECIPE_TITLE, recipeTitle);
+            editor.putInt(SELECT_RECIPE_ID, recipeListForWidget);
+            editor.apply();
+        }else{
+            Toast.makeText(this, this.getString(R.string.network_error), Toast.LENGTH_SHORT).show();
+            checkConnection();
+        }
 
         return super.onOptionsItemSelected(item);
     }
