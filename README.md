@@ -3,7 +3,7 @@ Baking App part of the Udacity Android Developer Nanodegree
 Baking App is the final project for Andvaced Android developer.
 This app will run on Android decives API 25+
 
-#DOWNLOAD AND INSTALL
+# DOWNLOAD AND INSTALL
 
 $ git clone https://github.com/chadg1980/BakingApp.git
  Android Studio 2.0.0 or higher is required to run this app.
@@ -11,14 +11,14 @@ $ git clone https://github.com/chadg1980/BakingApp.git
 
 
 
- #USAGE
+ # USAGE
  Baking App has an option homescreen widget for the recipe's ingredients.
  Baking app is a cookbook for you Android Device. Baking App gives the user a list of recipes to 
  choose from and when selected will show a list of ingredients and steps. 
   
  
  
- #License
+ # License
  MIT License
  
  Copyright (c) [2017] [Chad H. Glaser]
