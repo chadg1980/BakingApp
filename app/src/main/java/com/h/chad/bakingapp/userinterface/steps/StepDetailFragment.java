@@ -125,12 +125,10 @@ public class StepDetailFragment extends Fragment {
             mPrevNextButtonLayout.setVisibility(View.GONE);
 
         }
-
-
         return mRootView;
     }
 
-    //Next/Previos button
+    //Next/Previos button for device under 900dp
     public void checkNextStep(final int currentStep) {
 
         //Previous Button, if current step is 0, we disable the button

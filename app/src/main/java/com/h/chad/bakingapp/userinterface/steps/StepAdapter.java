@@ -64,9 +64,10 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepAdapterVie
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Bundle args = new Bundle();
+                int currentStepID = mSteps.get(position).getId();
+
                 if (mTwoPane) {
-                    Bundle args = new Bundle();
-                    int currentStepID = mSteps.get(position).getId();
                     FragmentTransaction transaction = ((FragmentActivity)mContext).getSupportFragmentManager().beginTransaction();
                     args.putParcelableArrayList(StepListActivity.STEP_DATA, mSteps);
                     args.putBoolean(StepDetailFragment.IS_TWO_PANE, mTwoPane);
@@ -78,15 +79,13 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepAdapterVie
 
                 } else {
                     Context context = v.getContext();
-                    int stepID = mSteps.get(position).getId();
                     Intent stepDetailIntent = new Intent(context, StepDetailActivity.class);
-                    Bundle args = new Bundle();
                     args.putParcelableArrayList(StepDetailFragment.GET_STEP_ARRAYLIST, mSteps);
                     args.putParcelableArrayList(IngredientsFragment.GET_INGREDIENTS_ARRAYLIST, mIngredients);
                     args.putString(StepListActivity.RECIPE_NAME, mCurrentRecipe);
                     args.putBoolean(StepDetailFragment.IS_TWO_PANE ,mTwoPane);
                     stepDetailIntent.putExtras(args);
-                    stepDetailIntent.putExtra(StepDetailFragment.GET_STEP_ID, stepID);
+                    stepDetailIntent.putExtra(StepDetailFragment.GET_STEP_ID, currentStepID);
                     stepDetailIntent.putExtra(StepDetailActivity.IS_STEP, true);
                     context.startActivity(stepDetailIntent);
                 }

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -58,16 +59,6 @@ public class StepListActivity extends AppCompatActivity {
         mContext = this;
         if(findViewById(mp_step_detail_container) != null){
             mTwoPane = true;
-            if (mTwoPane) {
-                Bundle args = new Bundle();
-                args.putParcelableArrayList(IngredientsFragment.GET_INGREDIENTS_ARRAYLIST, mIngredients);
-                IngredientsFragment fragment = new IngredientsFragment();
-                fragment.setArguments(args);
-                getSupportFragmentManager().beginTransaction()
-                        .add(mp_step_detail_container, fragment)
-                        .commit();
-
-            }
         }
 
         View recyclerView = findViewById(R.id.step_list);
