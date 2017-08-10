@@ -1,24 +1,40 @@
 # BakingApp
-Baking App part of the Udacity Android Developer Nanodegree
+Baking App part of the [Udacity Android Developer Nanodegree](https://classroom.udacity.com/nanodegrees/nd801)
 Baking App is the final project for Andvaced Android developer.
 This app will run on Android decives API 25+
+Created an app to view video recipes that incorporated media loading, verifying user interfaces with UI tests, integrated third party libraries and provided a complete UX with home screen widget.
 
-# DOWNLOAD AND INSTALL
+## DOWNLOAD AND INSTALL
 
-$ git clone https://github.com/chadg1980/BakingApp.git
- Android Studio 2.0.0 or higher is required to run this app.
+`$ git clone https://github.com/chadg1980/BakingApp.git`  
+ **Android Studio** 2.0.0 or higher is required to run this app.
  From Android Studio select run -> run 'app'
+ 
+ ## What I learned
+ * Using Fragments with Master-Detail view
+ * Creating a homescreen widget with a listview
+ * Exo Media Player to play video
+ * Building POJO for parcelable
+ * Building Espresso Tests and UI testing
+ 
+ 
+ ## Technology Used
+ * Android Studio and Android framework
+ * Retrofit2
+ * Butterknife
+ * Exoplayer
+ * Espresso Test
 
 
 
- # USAGE
+ ## USAGE
  Baking App has an option homescreen widget for the recipe's ingredients.
- Baking app is a cookbook for you Android Device. Baking App gives the user a list of recipes to 
+ Baking app is a _cookbook_ for you Android phone or tablet. Baking App gives the user a list of recipes to 
  choose from and when selected will show a list of ingredients and steps. 
   
  
  
- # License
+ ### License
  MIT License
  
  Copyright (c) [2017] [Chad H. Glaser]
