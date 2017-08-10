@@ -76,8 +76,6 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepAdapterVie
                     transaction.replace(mp_step_detail_container, fragment);
                     transaction.commit();
 
-
-
                 } else {
                     Context context = v.getContext();
                     int stepID = mSteps.get(position).getId();
