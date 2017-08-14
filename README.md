@@ -1,4 +1,8 @@
 # BakingApp
+
+![BakingApp](https://github.com/chadg1980/BakingApp/blob/master/Capture.JPG)
+
+
 Baking App part of the [Udacity Android Developer Nanodegree](https://classroom.udacity.com/nanodegrees/nd801)
 Baking App is the final project for Andvaced Android developer.
 This app will run on Android decives API 25+
